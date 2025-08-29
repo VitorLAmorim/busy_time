@@ -1,0 +1,132 @@
+.place-details {
+  padding: 1rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.place-details-header {
+  display: flex;
+  margin-bottom: 2rem;
+}
+
+.place-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 8px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  flex-shrink: 0;
+  margin-right: 1.5rem;
+}
+
+.place-info {
+  flex-grow: 1;
+}
+
+.place-name {
+  margin: 0 0 1rem 0;
+  font-size: 2rem;
+  color: #333;
+}
+
+.place-meta {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.place-type {
+  display: inline-block;
+  background-color: #f0f0f0;
+  color: #666;
+  font-size: 0.9rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-weight: 500;
+  margin-right: 1rem;
+}
+
+.place-rating {
+  display: flex;
+  align-items: center;
+
+  .rating-value {
+    font-weight: 600;
+    color: #333;
+    font-size: 1.1rem;
+  }
+
+  .rating-star {
+    color: #ffc107;
+    margin-left: 0.25rem;
+    font-size: 1.2rem;
+  }
+}
+
+.place-address {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: #666;
+
+  .location-icon {
+    margin-right: 0.5rem;
+    font-style: normal;
+  }
+}
+
+.place-details-content {
+  h3 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+  }
+
+  .busy-times-description {
+    margin: 0 0 1.5rem 0;
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+}
+
+.no-place-selected {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+
+  .message {
+    h3 {
+      margin: 0 0 0.5rem 0;
+      color: #333;
+    }
+
+    p {
+      margin: 0;
+      color: #666;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .place-details-header {
+    flex-direction: column;
+  }
+
+  .place-image {
+    width: 100%;
+    height: 200px;
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+
+  .place-name {
+    font-size: 1.75rem;
+  }
+}

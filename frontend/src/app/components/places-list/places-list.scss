@@ -1,0 +1,42 @@
+.places-list {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.places-list-header {
+  margin-bottom: 1.5rem;
+
+  h2 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+    font-size: 1.75rem;
+  }
+
+  p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+  }
+}
+
+.places-list-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .places-list {
+    padding: 0.5rem;
+  }
+
+  .places-list-header {
+    margin-bottom: 1rem;
+
+    h2 {
+      font-size: 1.5rem;
+    }
+  }
+}

@@ -1,0 +1,136 @@
+<div class="filter-bar">
+  <div class="filter-header">
+    <h3>Filter Places</h3>
+    <mat-icon (click)="toggleFilters()">{{showFilters() ? 'visibility' : 'visibility_off'}}</mat-icon>
+  </div>
+
+  @if (showFilters()) {
+  <div class="filter-options">
+    @for (type of placeTypes; track type) {
+      <div
+        class="filter-option"
+        [class.selected]="isSelected(type)"
+        (click)="toggleType(type)"
+      >
+        <div class="filter-checkbox">
+          @if (isSelected(type)) {
+            <div class="checkbox-inner"></div>
+          }
+        </div>
+        <span class="filter-label">{{ getTypeLabel(type) }}</span>
+      </div>
+    }
+  </div>
+
+  <div class="text-filters">
+    <div class="filter-group">
+      <label for="nameFilter">Name</label>
+      <input
+        id="nameFilter"
+        type="text"
+        placeholder="Search by name..."
+        [(ngModel)]="filters.name"
+        (ngModelChange)="updateFilters({ name: $event })"
+      />
+    </div>
+
+    <div class="filter-group">
+      <label for="addressFilter">Address</label>
+      <input
+        id="addressFilter"
+        type="text"
+        placeholder="Search by address..."
+        [(ngModel)]="filters.address"
+        (ngModelChange)="updateFilters({ address: $event })"
+      />
+    </div>
+  </div>
+
+  <div class="numeric-filters">
+    <div class="filter-group">
+      <label for="minRating">Min Rating</label>
+      <select
+        id="minRating"
+        [(ngModel)]="filters.minRating"
+        (ngModelChange)="onNumberChange('minRating', $event)"
+      >
+        <option [ngValue]="0">Any rating</option>
+        <option [ngValue]="4.5">4.5+ stars</option>
+        <option [ngValue]="4.0">4.0+ stars</option>
+        <option [ngValue]="3.5">3.5+ stars</option>
+        <option [ngValue]="3.0">3.0+ stars</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="minReviews">Min Reviews</label>
+      <select
+        id="minReviews"
+        [(ngModel)]="filters.minReviews"
+        (ngModelChange)="onNumberChange('minReviews', $event)"
+      >
+        <option [ngValue]="0">Any reviews</option>
+        <option [ngValue]="100">100+ reviews</option>
+        <option [ngValue]="500">500+ reviews</option>
+        <option [ngValue]="1000">1000+ reviews</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="priceLevel">Price Level</label>
+      <select
+        id="priceLevel"
+        [(ngModel)]="filters.priceLevel"
+        (ngModelChange)="onNumberChange('priceLevel', $event)"
+      >
+        <option [ngValue]="0">Any price</option>
+        <option [ngValue]="1">$</option>
+        <option [ngValue]="2">$$</option>
+        <option [ngValue]="3">$$$</option>
+        <option [ngValue]="4">$$$$</option>
+      </select>
+    </div>
+  </div>
+  }
+  <div class="search-actions">
+    <button
+      class="search-button clear-button"
+      (click)="clearFilters()"
+      [disabled]="!hasActiveFilters()"
+    >
+      Clear
+    </button>
+    <button
+      class="search-button"
+      (click)="emitFilters()"
+    >
+      Search
+    </button>
+  </div>
+
+  @if(hasActiveFilters()){
+    <div class="filter-summary">
+      <p>
+        Showing filtered results:
+        @if (filters.name) {
+          <span>Name: "{{ filters.name }}"</span>
+        }
+        @if (filters.address) {
+          <span>Address: "{{ filters.address }}"</span>
+        }
+        @if (filters.minRating) {
+          <span>Rating: {{ filters.minRating }}+</span>
+        }
+        @if (filters.minReviews) {
+          <span>Reviews: {{ filters.minReviews }}+</span>
+        }
+        @if (filters.priceLevel) {
+          <span>Price: {{ getPriceLabel(filters.priceLevel.toString()) }}</span>
+        }
+        @for (type of filters.type; track type; let last = $last) {
+          <span>{{ getTypeLabel(type) }}{{ !last ? ', ' : '' }}</span>
+        }
+      </p>
+    </div>
+  }
+</div>

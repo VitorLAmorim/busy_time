@@ -1,0 +1,20 @@
+<div class="places-list">
+  <div class="places-list-header">
+    <h2>Places in Warsaw</h2>
+    @if (places().length > 0 ) {
+      <p>{{ places().length }} places found</p>
+    } @else {
+      <p>No places found</p>
+    }
+  </div>
+
+  <div class="places-list-content">
+    @for (place of places(); track place.placeId) {
+    <app-place-item
+      [place]="place"
+      [selected]="isSelected(place)"
+      (selectPlace)="onSelectPlace($event)"
+    ></app-place-item>
+    }
+  </div>
+</div>

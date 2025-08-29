@@ -1,0 +1,93 @@
+<div class="app-container">
+  <header class="app-header">
+    <h1>{{ title() }}</h1>
+    <p class="app-description">Find the best times to visit bars, clubs, and cafes in Warsaw</p>
+  </header>
+
+  <div class="app-content">
+    <div class="app-layout">
+      <div class="sidebar">
+        <app-filter-bar
+          (filtersChange)="onFiltersChange($event)"
+        ></app-filter-bar>
+
+        @if (isLoading()) {
+          <div class="loading-indicator">
+            <mat-progress-spinner
+              name="loading-spinner"
+              diameter="30"
+              strokeWidth="4"
+              mode="indeterminate"
+              color="primary">
+            </mat-progress-spinner>
+            <p>Loading places...</p>
+          </div>
+        } @else {
+          <app-places-list
+            [places]="filteredPlaces()"
+            [selectedPlace]="selectedPlace()"
+            (selectPlace)="onSelectPlace($event)"
+          ></app-places-list>
+
+        }
+      </div>
+
+      @if(selectedPlace()) {
+      <div class="main-content">
+        <app-place-details
+          [place]="selectedPlace()"
+        ></app-place-details>
+      </div>
+      }
+    </div>
+  </div>
+
+  @if(totalPages > 1) {
+  <div class="pagination-controls bottom">
+    <div class="pagination-buttons">
+      <button
+        (click)="onPageChange(currentPage - 1)"
+        [disabled]="!hasPreviousPage()"
+        class="pagination-btn"
+      >
+        Anterior
+      </button>
+
+      <div class="page-numbers">
+        @for (page of pageNumbers; track page) {
+        <button
+          (click)="onPageChange(page)"
+          [class.active]="page === currentPage"
+          class="page-btn"
+        >
+          {{ page }}
+        </button>
+        }
+      </div>
+
+      <button
+        (click)="onPageChange(currentPage + 1)"
+        [disabled]="!hasNextPage()"
+        class="pagination-btn"
+      >
+        Próxima
+      </button>
+    </div>
+    <div class="items-per-page">
+      <label for="itemsPerPage">Itens por página:</label>
+      <select
+        id="itemsPerPage"
+        [value]="itemsPerPage"
+        (change)="onItemsPerPageChange($any($event.target).value)"
+      >
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+    </div>
+</div>
+  }
+</div>
+
+<router-outlet />

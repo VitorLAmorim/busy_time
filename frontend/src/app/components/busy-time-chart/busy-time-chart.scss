@@ -1,0 +1,119 @@
+.busy-time-chart {
+  width: 100%;
+  margin: 0 auto;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #333;
+    text-align: center;
+  }
+
+  .chart-container {
+    margin-bottom: 1.5rem;
+  }
+
+  .day-row {
+    display: flex;
+    margin-bottom: 0.5rem;
+    align-items: center;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .day-label {
+    width: 100px;
+    font-weight: 500;
+    color: #555;
+    padding-right: 1rem;
+  }
+
+  .hours-container {
+    min-height: 75px;
+    display: flex;
+    flex-grow: 1;
+    overflow-x: auto;
+  }
+
+  .hour-block {
+    min-width: 60px;
+    height: 60px;
+    margin-right: 4px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  .hour-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .busy-level {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+
+      .color-box {
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+        margin-right: 0.5rem;
+      }
+
+      span {
+        font-size: 0.85rem;
+        color: #555;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .day-label {
+      width: 80px;
+    }
+
+    .hour-block {
+      min-width: 50px;
+      height: 50px;
+    }
+
+    .hour-label {
+      font-size: 0.7rem;
+    }
+
+    .busy-level {
+      font-size: 0.9rem;
+    }
+  }
+}

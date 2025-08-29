@@ -1,0 +1,42 @@
+<div class="busy-time-chart">
+  <h3>Busy Times</h3>
+
+  <div class="chart-container">
+    @for (dayData of chartData; track dayData.day) {
+    <div class="day-row">
+      <div class="day-label">{{ dayData.day }}</div>
+      <div class="hours-container">
+        @for (hourData of dayData.hours; track hourData.hour) {
+        <div
+          class="hour-block"
+          [style.background-color]="getColorForBusyLevel(hourData.busyLevel)"
+          [title]="formatHour(hourData.hour) + ': ' + hourData.busyLevel + '% busy'"
+        >
+          <span class="hour-label">{{ formatHour(hourData.hour) }}</span>
+          <span class="busy-level">{{ hourData.busyLevel }}%</span>
+        </div>
+        }
+      </div>
+    </div>
+    }
+  </div>
+
+  <div class="legend">
+    <div class="legend-item">
+      <div class="color-box" style="background-color: #4CAF50;"></div>
+      <span>Not Busy (< 30%)</span>
+    </div>
+    <div class="legend-item">
+      <div class="color-box" style="background-color: #FFC107;"></div>
+      <span>Moderately Busy (30-60%)</span>
+    </div>
+    <div class="legend-item">
+      <div class="color-box" style="background-color: #FF9800;"></div>
+      <span>Busy (60-80%)</span>
+    </div>
+    <div class="legend-item">
+      <div class="color-box" style="background-color: #F44336;"></div>
+      <span>Very Busy (> 80%)</span>
+    </div>
+  </div>
+</div>

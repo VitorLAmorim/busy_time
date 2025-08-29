@@ -1,0 +1,44 @@
+
+@if (place) {
+<div class="place-details">
+  <div class="place-details-header">
+
+    <div class="place-info">
+      <h2 class="place-name">{{ place.name }}</h2>
+
+      <div class="place-meta">
+        <span class="place-type">{{ getPlaceTypeLabel(place.type) }}</span>
+
+        @if (place.rating) {
+        <div class="place-rating">
+          <span class="rating-value">{{ place.rating }}</span>
+          <span class="rating-star">★</span>
+        </div>
+        }
+      </div>
+
+      <div class="place-address">
+        <i class="location-icon">📍</i>
+        {{ place.address }}
+      </div>
+    </div>
+  </div>
+
+  <div class="place-details-content">
+    <h3>Busy Times</h3>
+    <p class="busy-times-description">
+      The chart below shows how busy this place typically gets throughout the week.
+      Darker colors indicate busier times. All times is in the timezone of the city they are in.
+    </p>
+
+    <app-busy-time-chart [busyTimes]="place.busyTimes"></app-busy-time-chart>
+  </div>
+</div>
+} @else {
+<div class="no-place-selected">
+<div class="message">
+<h3>No place selected</h3>
+<p>Select a place from the list to see detailed information and busy times.</p>
+</div>
+</div>
+}

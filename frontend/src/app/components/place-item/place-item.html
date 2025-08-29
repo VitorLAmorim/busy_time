@@ -1,0 +1,25 @@
+<div
+  class="place-item"
+  [class.selected]="selected"
+  (click)="onSelect()"
+>
+
+  <div class="place-content">
+    <div class="place-header">
+      <h3 class="place-name">{{ place.name }}</h3>
+      <span class="place-type">{{ getPlaceTypeLabel(place.type) }}</span>
+    </div>
+  @if (place.rating) {
+    <div class="place-rating">
+      <span class="rating-value">{{ place.rating }}</span>
+      <span class="rating-star">★</span>
+      <span class="rating-value">{{ place.reviews }} reviews</span>
+    </div>
+  }
+    <div class="place-details">
+      <div class="place-address">
+        {{ place.address }}
+      </div>
+    </div>
+  </div>
+</div>
