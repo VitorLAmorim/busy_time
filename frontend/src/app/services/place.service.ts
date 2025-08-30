@@ -5,7 +5,6 @@ import { Place } from '../models/place.model';
 import {Filters} from '../components/filter-bar/filter-bar';
 import { environment } from '../../environments/environment';
 
-const url = environment.apiUrl;
 /**
  * Interface for searching places with params
  * @param page - Page number
@@ -56,9 +55,10 @@ export interface PaginatedResponse<T> {
 
 @Injectable({ providedIn: 'root' })
 export class PlaceService {
-    private apiUrl = url ||'https://busy-time.onrender.com/places';
+    private apiUrl = environment.apiUrl;
 
-    constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   getPlaces(params: GetPlacesParams = {}): Observable<PaginatedResponse<Place>> {
     const {
