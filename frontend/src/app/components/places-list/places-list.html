@@ -1,8 +1,8 @@
 <div class="places-list">
   <div class="places-list-header">
     <h2>Places in Warsaw</h2>
-    @if (places().length > 0 ) {
-      <p>{{ places().length }} places found</p>
+    @if (totalItems > 0 ) {
+      <p>{{ totalItems }} places found</p>
     } @else {
       <p>No places found</p>
     }

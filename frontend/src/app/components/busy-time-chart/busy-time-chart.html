@@ -6,14 +6,21 @@
     <div class="day-row">
       <div class="day-label">{{ dayData.day }}</div>
       <div class="hours-container">
-        @for (hourData of dayData.hours; track hourData.hour) {
-        <div
-          class="hour-block"
-          [style.background-color]="getColorForBusyLevel(hourData.busyLevel)"
-          [title]="formatHour(hourData.hour) + ': ' + hourData.busyLevel + '% busy'"
-        >
-          <span class="hour-label">{{ formatHour(hourData.hour) }}</span>
-          <span class="busy-level">{{ hourData.busyLevel }}%</span>
+        @for (hourData of dayData.hours; track hourData.hour; let even = $even) {
+        <div class="hour-container" [title]="formatHour(hourData.hour) + ': ' + hourData.busyLevel + '% busy'">
+          @if (even || hourData.hour === 23) {
+          <div class="hour-label">{{ formatHour(hourData.hour) }}</div>
+          } @else {
+          <div class="hour-label empty"></div>
+          }
+          <div class="bar-container">
+            <div
+              class="bar"
+              [style.height.%]="hourData.busyLevel"
+              [style.background-color]="getColorForBusyLevel(hourData.busyLevel)"
+            ></div>
+          </div>
+          <div class="busy-level">{{ hourData.busyLevel }}%</div>
         </div>
         }
       </div>

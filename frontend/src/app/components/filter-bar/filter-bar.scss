@@ -3,9 +3,11 @@
   max-width: 800px;
   margin: 0 auto 1.5rem auto;
   padding: 1rem;
-  background-color: white;
+  background-color: #cccccc;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 10;
 }
 
 .filter-header {
@@ -44,7 +46,8 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin-bottom: 1rem;
+  margin: 1rem;
+
 }
 
 .filter-option {
@@ -117,6 +120,7 @@
   display: flex;
   gap: 15px;
   margin-bottom: 20px;
+  margin-left: 1rem;
   flex-wrap: wrap;
 }
 
@@ -152,7 +156,8 @@
 }
 
 .filter-summary span {
-  margin-right: 10px;
+  overflow-wrap: break-word ;
+  margin-right: 4px;
   padding: 2px 8px;
   background-color: #e3f2fd;
   border-radius: 12px;
@@ -192,6 +197,18 @@
 .clear-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.filter-content{
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #cccccc;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  z-index: 20;
+  border-radius: 8px;
 }
 
 @media (max-width: 576px) {

@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import placeRoutes from './routes/places.routes';
-import * as cron from './cron';
+import './cron';
 
 // Load environment variables
 dotenv.config();

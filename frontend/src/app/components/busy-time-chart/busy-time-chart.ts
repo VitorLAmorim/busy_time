@@ -34,14 +34,16 @@ export class BusyTimeChartComponent implements OnChanges {
 
     for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
       const busyTimeLevels = this.busyTimes.find(time => time.day === dayIndex)?.hours;
-      let hours: { hour: number, busyLevel: number }[] = [];
-      if(busyTimeLevels) {
-        busyTimeLevels.forEach((busyTimeLevel, index) => {
+      const hours: { hour: number, busyLevel: number }[] = [];
+      
+      if (busyTimeLevels) {
+        // Process all hours
+        for (let hour = 0; hour < 24; hour++) {
           hours.push({
-            hour: index,
-            busyLevel: busyTimeLevel
-          })
-        })
+            hour,
+            busyLevel: busyTimeLevels[hour] || 0
+          });
+        }
       }
 
       const dayData = {

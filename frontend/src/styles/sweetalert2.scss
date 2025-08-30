@@ -1,0 +1,46 @@
+
+.swal2-container {
+  .swal2-popup {
+    .swal2-html-container {
+      .form-group {
+        text-align: left;
+        margin-bottom: 1rem;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        label {
+          display: block;
+          margin-bottom: 0.5rem;
+          font-weight: 500;
+          color: #333;
+        }
+
+        input {
+          margin: 0 1rem;
+          width: fit-content;
+          padding: 0.5rem;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          font-size: 1rem;
+        }
+
+        .swal2-checkbox {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          cursor: pointer;
+
+          input[type="checkbox"] {
+            margin: 0;
+          }
+
+          span {
+            user-select: none;
+          }
+        }
+      }
+    }
+  }
+}

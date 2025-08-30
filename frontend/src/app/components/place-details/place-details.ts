@@ -16,4 +16,8 @@ export class PlaceDetailsComponent {
   getPlaceTypeLabel(type: string): string {
     return type.charAt(0).toUpperCase() + type.slice(1);
   }
+
+  range(n: number) {
+    return Array.from({ length: n }, (_, i) => i);
+  }
 }

@@ -12,6 +12,7 @@ import { PlaceItemComponent } from '../place-item/place-item';
 })
 export class PlacesListComponent {
   @Input() selectedPlace: Place | null = null;
+  @Input() totalItems = 0;
   @Output() selectPlace = new EventEmitter<Place>();
 
   places = input<Place[]>([]);

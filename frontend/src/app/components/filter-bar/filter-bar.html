@@ -5,92 +5,94 @@
   </div>
 
   @if (showFilters()) {
-  <div class="filter-options">
-    @for (type of placeTypes; track type) {
-      <div
-        class="filter-option"
-        [class.selected]="isSelected(type)"
-        (click)="toggleType(type)"
-      >
-        <div class="filter-checkbox">
-          @if (isSelected(type)) {
-            <div class="checkbox-inner"></div>
-          }
-        </div>
-        <span class="filter-label">{{ getTypeLabel(type) }}</span>
+    <div class="filter-content">
+      <div class="filter-options">
+        @for (type of placeTypes; track type) {
+          <div
+            class="filter-option"
+            [class.selected]="isSelected(type)"
+            (click)="toggleType(type)"
+          >
+            <div class="filter-checkbox">
+              @if (isSelected(type)) {
+                <div class="checkbox-inner"></div>
+              }
+            </div>
+            <span class="filter-label">{{ getTypeLabel(type) }}</span>
+          </div>
+        }
       </div>
-    }
-  </div>
 
-  <div class="text-filters">
-    <div class="filter-group">
-      <label for="nameFilter">Name</label>
-      <input
-        id="nameFilter"
-        type="text"
-        placeholder="Search by name..."
-        [(ngModel)]="filters.name"
-        (ngModelChange)="updateFilters({ name: $event })"
-      />
-    </div>
+      <div class="text-filters">
+        <div class="filter-group">
+          <label for="nameFilter">Name</label>
+          <input
+            id="nameFilter"
+            type="text"
+            placeholder="Search by name..."
+            [(ngModel)]="filters.name"
+            (ngModelChange)="updateFilters({ name: $event })"
+          />
+        </div>
 
-    <div class="filter-group">
-      <label for="addressFilter">Address</label>
-      <input
-        id="addressFilter"
-        type="text"
-        placeholder="Search by address..."
-        [(ngModel)]="filters.address"
-        (ngModelChange)="updateFilters({ address: $event })"
-      />
-    </div>
-  </div>
+        <div class="filter-group">
+          <label for="addressFilter">Address</label>
+          <input
+            id="addressFilter"
+            type="text"
+            placeholder="Search by address..."
+            [(ngModel)]="filters.address"
+            (ngModelChange)="updateFilters({ address: $event })"
+          />
+        </div>
+      </div>
 
-  <div class="numeric-filters">
-    <div class="filter-group">
-      <label for="minRating">Min Rating</label>
-      <select
-        id="minRating"
-        [(ngModel)]="filters.minRating"
-        (ngModelChange)="onNumberChange('minRating', $event)"
-      >
-        <option [ngValue]="0">Any rating</option>
-        <option [ngValue]="4.5">4.5+ stars</option>
-        <option [ngValue]="4.0">4.0+ stars</option>
-        <option [ngValue]="3.5">3.5+ stars</option>
-        <option [ngValue]="3.0">3.0+ stars</option>
-      </select>
-    </div>
+      <div class="numeric-filters">
+        <div class="filter-group">
+          <label for="minRating">Min Rating</label>
+          <select
+            id="minRating"
+            [(ngModel)]="filters.minRating"
+            (ngModelChange)="onNumberChange('minRating', $event)"
+          >
+            <option [ngValue]="0">Any rating</option>
+            <option [ngValue]="4.5">4.5+ stars</option>
+            <option [ngValue]="4.0">4.0+ stars</option>
+            <option [ngValue]="3.5">3.5+ stars</option>
+            <option [ngValue]="3.0">3.0+ stars</option>
+          </select>
+        </div>
 
-    <div class="filter-group">
-      <label for="minReviews">Min Reviews</label>
-      <select
-        id="minReviews"
-        [(ngModel)]="filters.minReviews"
-        (ngModelChange)="onNumberChange('minReviews', $event)"
-      >
-        <option [ngValue]="0">Any reviews</option>
-        <option [ngValue]="100">100+ reviews</option>
-        <option [ngValue]="500">500+ reviews</option>
-        <option [ngValue]="1000">1000+ reviews</option>
-      </select>
-    </div>
+        <div class="filter-group">
+          <label for="minReviews">Min Reviews</label>
+          <select
+            id="minReviews"
+            [(ngModel)]="filters.minReviews"
+            (ngModelChange)="onNumberChange('minReviews', $event)"
+          >
+            <option [ngValue]="0">Any reviews</option>
+            <option [ngValue]="100">100+ reviews</option>
+            <option [ngValue]="500">500+ reviews</option>
+            <option [ngValue]="1000">1000+ reviews</option>
+          </select>
+        </div>
 
-    <div class="filter-group">
-      <label for="priceLevel">Price Level</label>
-      <select
-        id="priceLevel"
-        [(ngModel)]="filters.priceLevel"
-        (ngModelChange)="onNumberChange('priceLevel', $event)"
-      >
-        <option [ngValue]="0">Any price</option>
-        <option [ngValue]="1">$</option>
-        <option [ngValue]="2">$$</option>
-        <option [ngValue]="3">$$$</option>
-        <option [ngValue]="4">$$$$</option>
-      </select>
+        <div class="filter-group">
+          <label for="priceLevel">Price Level</label>
+          <select
+            id="priceLevel"
+            [(ngModel)]="filters.priceLevel"
+            (ngModelChange)="onNumberChange('priceLevel', $event)"
+          >
+            <option [ngValue]="0">Any price</option>
+            <option [ngValue]="1">$</option>
+            <option [ngValue]="2">$$</option>
+            <option [ngValue]="3">$$$</option>
+            <option [ngValue]="4">$$$$</option>
+          </select>
+        </div>
+      </div>
     </div>
-  </div>
   }
   <div class="search-actions">
     <button

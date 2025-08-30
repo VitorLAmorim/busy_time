@@ -18,6 +18,11 @@
   }
 }
 
+.place-meta {
+  display: flex;
+  justify-content: space-between;
+}
+
 .place-image {
   width: 120px;
   height: 120px;
@@ -56,6 +61,15 @@
   border-radius: 4px;
   font-weight: 500;
   height: fit-content;
+  &.BAR{
+    background-color: #a3e9ff;
+  }
+  &.CLUBS{
+    background-color: #d9ffca;
+  }
+  &.CAFE{
+    background-color: #fdd1bf;
+  }
 }
 
 .place-details {

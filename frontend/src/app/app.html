@@ -1,9 +1,4 @@
 <div class="app-container">
-  <header class="app-header">
-    <h1>{{ title() }}</h1>
-    <p class="app-description">Find the best times to visit bars, clubs, and cafes in Warsaw</p>
-  </header>
-
   <div class="app-content">
     <div class="app-layout">
       <div class="sidebar">
@@ -25,6 +20,7 @@
         } @else {
           <app-places-list
             [places]="filteredPlaces()"
+            [totalItems]="totalItems"
             [selectedPlace]="selectedPlace()"
             (selectPlace)="onSelectPlace($event)"
           ></app-places-list>
@@ -32,6 +28,8 @@
         }
       </div>
 
+      <div>
+        <h1 class="app-header">{{ title() }}</h1>
       @if(selectedPlace()) {
       <div class="main-content">
         <app-place-details
@@ -39,6 +37,12 @@
         ></app-place-details>
       </div>
       }
+      </div>
+      <div class="update-data">
+        <button (click)="updateData()">
+          Update data from api
+        </button>
+      </div>
     </div>
   </div>
 
@@ -50,18 +54,23 @@
         [disabled]="!hasPreviousPage()"
         class="pagination-btn"
       >
-        Anterior
+        <
       </button>
 
       <div class="page-numbers">
-        @for (page of pageNumbers; track page) {
-        <button
-          (click)="onPageChange(page)"
-          [class.active]="page === currentPage"
-          class="page-btn"
-        >
-          {{ page }}
-        </button>
+        @for (page of visiblePages; track page) {
+          @if (page) {
+            <button
+              (click)="onPageChange(page)"
+              [class.active]="page === currentPage"
+              class="page-btn"
+            >
+              {{ page }}
+            </button>
+          } @else {
+            <span class="dots">...</span>
+          }
+
         }
       </div>
 
@@ -70,7 +79,7 @@
         [disabled]="!hasNextPage()"
         class="pagination-btn"
       >
-        Próxima
+        >
       </button>
     </div>
     <div class="items-per-page">
@@ -89,5 +98,4 @@
 </div>
   }
 </div>
-
 <router-outlet />

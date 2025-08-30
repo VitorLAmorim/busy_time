@@ -1,8 +1,13 @@
 .places-list {
+  max-height: 100vh;
+  overflow-y: auto;
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
   padding: 1rem;
+  background-color: #cccccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .places-list-header {

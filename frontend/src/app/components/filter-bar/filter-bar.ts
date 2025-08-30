@@ -99,7 +99,8 @@ export class FilterBarComponent implements OnInit {
   }
 
   emitFilters(): void {
-    this.filtersChange.emit(this.filters);
+    this.showFilters.set(false);
+    this.filtersChange.emit({...this.filters});
   }
 
   getTypeLabel(type: string): string {
