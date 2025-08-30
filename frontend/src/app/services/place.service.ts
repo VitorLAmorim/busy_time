@@ -22,6 +22,17 @@ export interface GetPlacesParams {
   sortOrder?: 'asc' | 'desc';
 }
 
+
+export interface ValidateApiKeyReponse {
+  active: boolean;
+  api_key_private: string;
+  api_key_public: string;
+  credits_forecast: number;
+  credits_query: number;
+  status: string;
+  valid: boolean
+}
+
 /**
  * Interface for paginated response
  * @param places - Array of places
@@ -83,5 +94,27 @@ export class PlaceService {
 
     getPlace(id: string): Observable<Place> {
         return this.http.get<Place>(`${this.apiUrl}/${id}`);
+    }
+
+    getApiKeyInfo(): Observable<ValidateApiKeyReponse> {
+      return this.http.get<ValidateApiKeyReponse>(`${this.apiUrl}/validateKey`);
+    }
+
+    updatePlacesFromApi(lat?: number, lng?: number, types?: string, limit?: number, mockData?: boolean) {
+      let httpParams = new HttpParams()
+          if(lat && lng) {
+            httpParams = httpParams.set('lat', lat.toString());
+            httpParams = httpParams.set('lng', lng.toString());
+          }
+          if(types) {
+            httpParams = httpParams.set('types', types);
+          }
+          if(limit) {
+            httpParams = httpParams.set('limit', limit.toString());
+          }
+          if(mockData) {
+            httpParams = httpParams.set('mockData', mockData.toString());
+          }
+          return this.http.get<Place[]>(`${this.apiUrl}/updateData`, { params: httpParams });
     }
 }

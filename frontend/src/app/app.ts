@@ -7,8 +7,9 @@ import {FilterBarComponent, Filters} from './components/filter-bar/filter-bar';
 import { PlacesListComponent } from './components/places-list/places-list';
 import { PlaceDetailsComponent } from './components/place-details/place-details';
 import {Place} from './models/place.model';
-import {PaginatedResponse, PlaceService} from './services/place.service';
+import {PaginatedResponse, PlaceService, ValidateApiKeyReponse} from './services/place.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-root',
@@ -83,6 +84,115 @@ export class App implements OnInit {
     });
   }
 
+  updateData() {
+    this.placesService.getApiKeyInfo().subscribe({
+      next: async (response: ValidateApiKeyReponse) => {
+        if (response.valid) {
+          const { value: formValues } = await Swal.fire({
+            title: 'Retrieve new data from API',
+            html: `
+                  <h3>There is ${response.credits_query} credits left.</h3>
+                  <div class="form-group swal2-div">
+                    <label for="lat">Latitude</label>
+                    <input id="lat" class="swal2-input" placeholder="e.g., 52.230013" value="52.2300137946975">
+                  </div>
+                  <div class="form-group swal2-div">
+                    <label for="lng">Longitude</label>
+                    <input id="lng" class="swal2-input" placeholder="e.g., 21.011590" value="21.011590957893365">
+                  </div>
+                  <div class="form-group swal2-div">
+                    <label for="types">Place Types (comma separated)</label>
+                    <input id="types" class="swal2-input" placeholder="e.g., BAR,CLUBS,CAFE" value="BAR,CLUBS,CAFE">
+                  </div>
+                  <div class="form-group swal2-div">
+                    <label for="limit">Max Results</label>
+                    <input id="limit" type="number" class="swal2-input" placeholder="e.g., 10" value="10">
+                  </div>
+                  <div class="form-group swal2-div" style="text-align: left; margin-top: 10px;">
+                    <label class="swal2-checkbox">
+                      <input id="mockData" type="checkbox" checked>
+                      <span>Use Mock Data</span>
+                    </label>
+                  </div>
+                `,
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonText: 'Update Data',
+            cancelButtonText: 'Cancel',
+            reverseButtons: true,
+            preConfirm: () => {
+              return {
+                lat: parseFloat((document.getElementById('lat') as HTMLInputElement).value),
+                lng: parseFloat((document.getElementById('lng') as HTMLInputElement).value),
+                types: (document.getElementById('types') as HTMLInputElement).value,
+                limit: parseInt((document.getElementById('limit') as HTMLInputElement).value, 10),
+                mockData: (document.getElementById('mockData') as HTMLInputElement).checked
+              };
+            }
+          });
+
+          if (formValues) {
+            try {
+              Swal.fire({
+                title: 'Updating Data',
+                text: 'Please wait while we fetch the latest data...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                  Swal.showLoading();
+                }
+              });
+
+              this.placesService.updatePlacesFromApi(
+                formValues.lat,
+                formValues.lng,
+                formValues.types,
+                formValues.limit,
+                formValues.mockData
+              ).subscribe({
+                next: () => {
+                  this.loadPlaces();
+                  Swal.close();
+                },
+                error: (error) => {
+                  Swal.close();
+                  console.error('Error updating places:', error);
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Failed to update places. Please try again later.',
+                    confirmButtonText: 'OK'
+                  });
+                }
+              });
+            } catch (error) {
+              console.error('Error:', error);
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'An unexpected error occurred.',
+                confirmButtonText: 'OK'
+              });
+            }
+          }
+
+        } else {
+          Swal.fire({
+            title: 'Invalid API Key',
+            text: 'Please enter a valid API key',
+            icon: 'error'
+          })
+        }
+
+
+
+
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    })
+  }
+
   onFiltersChange(filters: Filters): void {
     this.currentFilters = filters;
     this.currentPage = 1;
@@ -122,5 +232,35 @@ export class App implements OnInit {
       }
 
     })
+  }
+
+  get visiblePages(): (number)[] {
+    const pages: (number)[] = [];
+
+    if (this.totalPages <= 3) {
+      for (let i = 1; i <= this.totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      if (this.currentPage > 2) {
+        pages.push(0);
+      }
+
+      if (this.currentPage > 1) {
+        pages.push(this.currentPage - 1);
+      }
+
+      pages.push(this.currentPage);
+
+      if (this.currentPage < this.totalPages) {
+        pages.push(this.currentPage + 1);
+      }
+
+      if (this.currentPage < this.totalPages - 1) {
+        pages.push(0);
+      }
+    }
+
+    return pages;
   }
 }

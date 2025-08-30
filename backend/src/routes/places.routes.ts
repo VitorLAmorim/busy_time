@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import Place from '../models/place.model';
 import {getPlacesFromBestTime, validateApiKey} from "../services/bestTime.service";
+import {parse} from "dotenv";
 
 const router = Router();
 
@@ -15,15 +16,12 @@ router.get('/', async (req: Request, res: Response) => {
             minReviews,
             priceLevel,
             type,
-            page = '1',
-            limit = '20',
-            sortBy = 'name',
-            sortOrder = 'asc'
-        } = req.query;
-
-        const pageNum = parseInt(page as string);
-        const limitNum = parseInt(limit as string);
-        const skip = (pageNum - 1) * limitNum;
+            page,
+            limit,
+            sortBy,
+            sortOrder,
+            skip
+        } = parseSearchQuery(req.query);
 
         let query: any = {};
         let sortOptions: any = {};
@@ -39,27 +37,27 @@ router.get('/', async (req: Request, res: Response) => {
             sortOptions[sortBy as string] =  sortOrder === 'asc' ? 1 : -1;
         }
 
-        if (minRating) {
-            query.rating = { $gte: parseFloat(minRating as string) };
+        if (minRating !== undefined) {
+            query.rating = { $gte: minRating };
         }
 
-        if (minReviews) {
-            query.reviews = { $gte: parseInt(minReviews as string) };
+        if (minReviews !== undefined) {
+            query.reviews = { $gte: minReviews };
         }
 
-        if (priceLevel) {
-            query.priceLevel = parseInt(priceLevel as string);
+        if (priceLevel !== undefined) {
+            query.priceLevel = priceLevel;
         }
 
         if (type) {
-            const typesArray = (type as string).split(',');
-            query.type = { $in: typesArray };
+            query.type = { $in: type };
         }
+
 
         let projection: any = {};
 
         if(queryFields) {
-            const fieldsArray = (queryFields as string).split(',');
+            const fieldsArray = queryFields.split(',');
             fieldsArray.forEach(field => {
                 projection[field.trim()] = 1;
             });
@@ -73,7 +71,7 @@ router.get('/', async (req: Request, res: Response) => {
                 .select(projection)
                 .sort(sortOptions)
                 .skip(skip)
-                .limit(limitNum)
+                .limit(limit)
                 .lean(),
 
             Place.countDocuments(query)
@@ -82,10 +80,10 @@ router.get('/', async (req: Request, res: Response) => {
         res.json({
             places,
             pagination: {
-                page: pageNum,
-                limit: limitNum,
+                page,
+                limit,
                 total,
-                pages: Math.ceil(total / limitNum)
+                pages: Math.ceil(total / limit)
             }
         })
 
@@ -98,9 +96,10 @@ router.get('/', async (req: Request, res: Response) => {
 
 router.get('/updateData', async (req: Request, res: Response) => {
     try {
-        await getPlacesFromBestTime({lat: 52.23001379469755, lng: 21.011590957893365}, 'BAR,CLUBS,CAFE');
-        const places = await Place.find();
-        res.json(places);
+        const { limit, mockData, types, lat, lng } = parseUpdateQuery(req.query);
+
+        await getPlacesFromBestTime({ lat, lng }, types, limit, mockData);
+        res.json({ message: 'Places updated successfully' });
     } catch (error) {
         res.status(500).json({ error: 'Error fetching venues' });
     }
@@ -127,6 +126,45 @@ router.get('/:id', async (req: Request, res: Response) => {
         res.status(500).json({ error: 'Error fetching venue' });
     }
 });
+
+
+
+function parseUpdateQuery<T>(query: any): {
+    limit: number;
+    mockData: boolean;
+    types: string;
+    lat: number;
+    lng: number;
+} {
+    return {
+        limit: query.limit ? parseInt(query.limit) : 10,
+        mockData: query.mockData === "true",
+        types: query.types || "BAR,CLUBS,CAFE",
+        lat: query.lat ? parseFloat(query.lat) : 52.2300137946975,
+        lng: query.lng ? parseFloat(query.lng) : 21.011590957893365,
+    };
+}
+
+function parseSearchQuery(query: any) {
+    const page = query.page ? parseInt(query.page) : 1;
+    const limit = query.limit ? parseInt(query.limit) : 20;
+
+    return {
+        queryFields: query.queryFields as string | undefined,
+        name: query.name as string | undefined,
+        address: query.address as string | undefined,
+        minRating: query.minRating ? parseFloat(query.minRating) : undefined,
+        minReviews: query.minReviews ? parseInt(query.minReviews) : undefined,
+        priceLevel: query.priceLevel ? parseInt(query.priceLevel) : undefined,
+        type: query.type ? (query.type as string).split(",") : undefined,
+        page,
+        limit,
+        sortBy: (query.sortBy as string) || "name",
+        sortOrder: query.sortOrder === "desc" ? "desc" : "asc",
+        skip: (page - 1) * limit,
+    };
+}
+
 
 
 
