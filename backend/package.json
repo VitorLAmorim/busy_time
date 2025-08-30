@@ -5,8 +5,8 @@
   "scripts": {
     "start": "node dist/server.js",
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "build": "tsc && xcopy /s /i /y src\\public dist\\public",
-    "test:all": "jest"
+    "test:all": "jest",
+    "build": "tsc"
   },
   "dependencies": {
     "cors": "^2.8.5",
