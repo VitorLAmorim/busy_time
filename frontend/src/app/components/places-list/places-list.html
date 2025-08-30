@@ -9,7 +9,7 @@
   </div>
 
   <div class="places-list-content">
-    @for (place of places(); track place.placeId) {
+    @for (place of places; track place.placeId) {
     <app-place-item
       [place]="place"
       [selected]="isSelected(place)"

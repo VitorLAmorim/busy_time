@@ -18,17 +18,68 @@
             <p>Loading places...</p>
           </div>
         } @else {
+          <div>
           <app-places-list
             [places]="filteredPlaces()"
             [totalItems]="totalItems"
             [selectedPlace]="selectedPlace()"
             (selectPlace)="onSelectPlace($event)"
           ></app-places-list>
+              <div class="pagination-controls bottom">
+                <div class="pagination-buttons">
+                  <button
+                    (click)="onPageChange(currentPage - 1)"
+                    [disabled]="!hasPreviousPage()"
+                    class="pagination-btn"
+                  >
+                    <
+                  </button>
+
+                  <div class="page-numbers">
+                    @for (page of visiblePages; track page) {
+                      @if (page) {
+                        <button
+                          (click)="onPageChange(page)"
+                          [class.active]="page === currentPage"
+                          class="page-btn"
+                        >
+                          {{ page }}
+                        </button>
+                      } @else {
+                        <span class="dots">...</span>
+                      }
+
+                    }
+                  </div>
+
+                  <button
+                    (click)="onPageChange(currentPage + 1)"
+                    [disabled]="!hasNextPage()"
+                    class="pagination-btn"
+                  >
+                    >
+                  </button>
+                </div>
+                <div class="items-per-page">
+                  <label for="itemsPerPage">Itens por página:</label>
+                  <select
+                    id="itemsPerPage"
+                    [value]="itemsPerPage"
+                    (change)="onItemsPerPageChange($any($event.target).value)"
+                  >
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                </div>
+              </div>
+          </div>
 
         }
       </div>
 
-      <div>
+      <div style="width: 100%;">
         <h1 class="app-header">{{ title() }}</h1>
       @if(selectedPlace()) {
       <div class="main-content">
@@ -46,56 +97,6 @@
     </div>
   </div>
 
-  @if(totalPages > 1) {
-  <div class="pagination-controls bottom">
-    <div class="pagination-buttons">
-      <button
-        (click)="onPageChange(currentPage - 1)"
-        [disabled]="!hasPreviousPage()"
-        class="pagination-btn"
-      >
-        <
-      </button>
 
-      <div class="page-numbers">
-        @for (page of visiblePages; track page) {
-          @if (page) {
-            <button
-              (click)="onPageChange(page)"
-              [class.active]="page === currentPage"
-              class="page-btn"
-            >
-              {{ page }}
-            </button>
-          } @else {
-            <span class="dots">...</span>
-          }
-
-        }
-      </div>
-
-      <button
-        (click)="onPageChange(currentPage + 1)"
-        [disabled]="!hasNextPage()"
-        class="pagination-btn"
-      >
-        >
-      </button>
-    </div>
-    <div class="items-per-page">
-      <label for="itemsPerPage">Itens por página:</label>
-      <select
-        id="itemsPerPage"
-        [value]="itemsPerPage"
-        (change)="onItemsPerPageChange($any($event.target).value)"
-      >
-        <option value="10">10</option>
-        <option value="20">20</option>
-        <option value="50">50</option>
-        <option value="100">100</option>
-      </select>
-    </div>
-</div>
-  }
 </div>
 <router-outlet />

@@ -3,7 +3,7 @@
 
   <div class="chart-container">
     @for (dayData of chartData; track dayData.day) {
-    <div class="day-row">
+    <div class="day-row ">
       <div class="day-label">{{ dayData.day }}</div>
       <div class="hours-container">
         @for (hourData of dayData.hours; track hourData.hour; let even = $even) {

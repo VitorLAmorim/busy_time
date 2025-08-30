@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, input} from '@angular/core';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Place } from '../../models/place.model';
 import { PlaceItemComponent } from '../place-item/place-item';
@@ -11,11 +11,10 @@ import { PlaceItemComponent } from '../place-item/place-item';
   styleUrl: './places-list.scss'
 })
 export class PlacesListComponent {
+  @Input() places: Place[] = [];
   @Input() selectedPlace: Place | null = null;
   @Input() totalItems = 0;
   @Output() selectPlace = new EventEmitter<Place>();
-
-  places = input<Place[]>([]);
 
   onSelectPlace(place: Place): void {
     this.selectPlace.emit(place);

@@ -27,7 +27,9 @@
     margin-bottom: 1.25rem;
     align-items: flex-end;
     min-width: fit-content;
-    height: 80px; // Fixed height for all rows
+    height: 80px;
+    border-radius: 0.5rem;
+    background-color: #e3e3e3;
 
     &:last-child {
       margin-bottom: 0;
@@ -35,12 +37,13 @@
   }
 
   .day-label {
+    margin-left: .25rem;
     width: 100px;
     font-weight: 500;
     color: #2c3e50;
-    padding-right: 1rem;
     text-align: left;
     font-size: 0.9rem;
+    align-self: center;
   }
 
   .hours-container {
@@ -69,7 +72,7 @@
     // Hide scrollbar when not needed
     @media (min-width: 1200px) {
       overflow-x: hidden;
-      padding-right: 0;
+      padding-right: 5px;
       justify-content: space-between;
     }
   }
@@ -97,7 +100,7 @@
 
   .bar-container {
     width: 100%;
-    height: 60px;
+    height: 55px;
     display: flex;
     align-items: flex-end;
     position: relative;
@@ -135,7 +138,7 @@
 
   .busy-level {
     position: absolute;
-    top: -22px;
+    top: -16px;
     font-size: 0.65rem;
     font-weight: 600;
     color: #2c3e50;

@@ -35,7 +35,7 @@ export class BusyTimeChartComponent implements OnChanges {
     for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
       const busyTimeLevels = this.busyTimes.find(time => time.day === dayIndex)?.hours;
       const hours: { hour: number, busyLevel: number }[] = [];
-      
+
       if (busyTimeLevels) {
         // Process all hours
         for (let hour = 0; hour < 24; hour++) {

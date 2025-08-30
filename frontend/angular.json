@@ -87,8 +87,7 @@
               }
             ],
             "styles": [
-              "src/styles.scss",
-              "src/styles/sweetalert2.scss"
+              "src/styles.scss"
             ]
           }
         }

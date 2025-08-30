@@ -1,7 +1,6 @@
 import { Router, Request, Response } from 'express';
 import Place from '../models/place.model';
 import {getPlacesFromBestTime, validateApiKey} from "../services/bestTime.service";
-import {parse} from "dotenv";
 
 const router = Router();
 
@@ -115,9 +114,9 @@ router.get('/validateKey', async (req: Request, res: Response) => {
 });
 
 
-router.get('/:id', async (req: Request, res: Response) => {
+router.get('/:placeId', async (req: Request, res: Response) => {
     try {
-        const venue = await Place.findOne({ placeId: req.params.id });
+        const venue = await Place.findOne({ placeId: req.params.placeId });
         if (!venue) {
             return res.status(404).json({ error: 'Venue not found' });
         }
