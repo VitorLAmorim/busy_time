@@ -10,6 +10,8 @@ import {Place} from './models/place.model';
 import {PaginatedResponse, PlaceService, ValidateApiKeyReponse} from './services/place.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import Swal from 'sweetalert2';
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, PLATFORM_ID } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -29,6 +31,7 @@ import Swal from 'sweetalert2';
 export class App implements OnInit {
   protected readonly title = signal('Busy Places in Warsaw');
   private placesService = inject(PlaceService);
+  private platformId = inject(PLATFORM_ID);
 
   places: Place[] = [];
   filteredPlaces =  signal<Place[]>([]);
@@ -121,13 +124,17 @@ export class App implements OnInit {
             cancelButtonText: 'Cancel',
             reverseButtons: true,
             preConfirm: () => {
-              return {
-                lat: parseFloat((document.getElementById('lat') as HTMLInputElement).value),
-                lng: parseFloat((document.getElementById('lng') as HTMLInputElement).value),
-                types: (document.getElementById('types') as HTMLInputElement).value,
-                limit: parseInt((document.getElementById('limit') as HTMLInputElement).value, 10),
-                mockData: (document.getElementById('mockData') as HTMLInputElement).checked
-              };
+              if (isPlatformBrowser(this.platformId)) {
+                return {
+                  lat: parseFloat((document.getElementById('lat') as HTMLInputElement).value),
+                  lng: parseFloat((document.getElementById('lng') as HTMLInputElement).value),
+                  types: (document.getElementById('types') as HTMLInputElement).value,
+                  limit: parseInt((document.getElementById('limit') as HTMLInputElement).value, 10),
+                  mockData: (document.getElementById('mockData') as HTMLInputElement).checked
+                };
+              } else {
+                return null
+              }
             }
           });
 
