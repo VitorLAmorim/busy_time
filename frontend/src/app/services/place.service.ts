@@ -55,9 +55,12 @@ export interface PaginatedResponse<T> {
 
 @Injectable({ providedIn: 'root' })
 export class PlaceService {
-    private apiUrl = environment.apiUrl;
+    private apiUrl = 'https://busy-time.onrender.com/places';
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {
+        console.log('Environment:', environment);
+        console.log('API URL:', this.apiUrl);
+    }
 
   getPlaces(params: GetPlacesParams = {}): Observable<PaginatedResponse<Place>> {
     const {
