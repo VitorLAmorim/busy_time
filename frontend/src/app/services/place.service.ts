@@ -55,7 +55,7 @@ export interface PaginatedResponse<T> {
 
 @Injectable({ providedIn: 'root' })
 export class PlaceService {
-    private apiUrl = 'https://busy-time.onrender.com/places';
+    private apiUrl = environment.apiUrl || 'https://busy-time.onrender.com/places';
 
     constructor(private http: HttpClient) {
         console.log('Environment:', environment);
