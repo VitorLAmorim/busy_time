@@ -87,7 +87,7 @@ router.get('/', async (req: Request, res: Response) => {
         })
 
     } catch (error) {
-        res.status(500).json({ error: 'Erro na busca de lugares' });
+        res.status(500).json({ error: 'Error fetching places' });
     }
 });
 
@@ -100,7 +100,7 @@ router.get('/updateData', async (req: Request, res: Response) => {
         await getPlacesFromBestTime({ lat, lng }, types, limit, mockData);
         res.json({ message: 'Places updated successfully' });
     } catch (error) {
-        res.status(500).json({ error: 'Error fetching venues' });
+        res.status(500).json({ error: 'Error updating places' });
     }
 });
 
@@ -109,20 +109,20 @@ router.get('/validateKey', async (req: Request, res: Response) => {
         const keyInfo = await validateApiKey();
         res.json(keyInfo);
     } catch (error) {
-        res.status(500).json({ error: 'Error fetching venues' });
+        res.status(500).json({ error: 'Error validating key' });
     }
 });
 
 
 router.get('/:placeId', async (req: Request, res: Response) => {
     try {
-        const venue = await Place.findOne({ placeId: req.params.placeId });
-        if (!venue) {
-            return res.status(404).json({ error: 'Venue not found' });
+        const place = await Place.findOne({ placeId: req.params.placeId });
+        if (!place) {
+            return res.status(404).json({ error: 'Place not found' });
         }
-        res.json(venue);
+        res.json(place);
     } catch (error) {
-        res.status(500).json({ error: 'Error fetching venue' });
+        res.status(500).json({ error: 'Error fetching place' });
     }
 });
 
