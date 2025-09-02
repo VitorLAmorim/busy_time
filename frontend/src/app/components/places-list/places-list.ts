@@ -1,26 +1,95 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef, OnDestroy, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Place } from '../../models/place.model';
-import { PlaceItemComponent } from '../place-item/place-item';
+import { PriceLevelLabelPipe } from '../pipes/priceLevelLabelPipe';
 
 @Component({
   selector: 'app-places-list',
   standalone: true,
-  imports: [CommonModule, PlaceItemComponent],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatChipsModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    PriceLevelLabelPipe
+  ],
   templateUrl: './places-list.html',
   styleUrl: './places-list.scss'
 })
-export class PlacesListComponent {
+export class PlacesListComponent implements AfterViewInit, OnDestroy {
   @Input() places: Place[] = [];
   @Input() selectedPlace: Place | null = null;
-  @Input() totalItems = 0;
-  @Output() selectPlace = new EventEmitter<Place>();
+  @Input() isLoading = false;
+  @Output() placeSelect = new EventEmitter<Place>();
+  @Output() loadMore = new EventEmitter<void>();
 
-  onSelectPlace(place: Place): void {
-    this.selectPlace.emit(place);
+  private scrollThreshold = 100;
+
+  constructor(private elementRef: ElementRef) {}
+
+  ngAfterViewInit() {
+    const element = this.elementRef.nativeElement.querySelector('.places-container');
+    if (element) {
+      element.addEventListener('scroll', this.onScroll.bind(this));
+    }
+  }
+
+  ngOnDestroy() {
+    const element = this.elementRef.nativeElement.querySelector('.places-container');
+    if (element) {
+      element.removeEventListener('scroll', this.onScroll.bind(this));
+    }
+  }
+
+  private onScroll(event: Event): void {
+    if (this.isLoading) return;
+
+    const element = event.target as HTMLElement;
+    const atBottom = element.scrollHeight - element.scrollTop <= element.clientHeight + this.scrollThreshold;
+
+    if (atBottom) {
+      this.loadMore.emit();
+    }
+  }
+
+  onPlaceClick(place: Place): void {
+    this.placeSelect.emit(place);
+  }
+
+  formatPlaceType(type: string): string {
+    return type.charAt(0).toUpperCase() + type.slice(1).replace(/_/g, ' ');
+  }
+
+  getStarArray(rating: number): Array<'full' | 'half' | 'empty'> {
+    const stars: Array<'full' | 'half' | 'empty'> = [];
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 !== 0;
+
+    for (let i = 0; i < fullStars; i++) {
+      stars.push('full');
+    }
+
+    if (hasHalfStar) {
+      stars.push('half');
+    }
+
+    while (stars.length < 5) {
+      stars.push('empty');
+    }
+
+    return stars;
   }
 
   isSelected(place: Place): boolean {
     return this.selectedPlace?.placeId === place.placeId;
+  }
+
+  trackByPlaceId(index: number, place: Place): string {
+    return place.placeId;
   }
 }

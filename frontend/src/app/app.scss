@@ -1,158 +1,33 @@
-.app-container {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  padding: .25rem;
-}
+@import '../styles.scss';
 
-.app-header {
-  text-align: center;
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-  font-size: 2.5rem;
-  color: #333;
-}
-
-mat-progress-spinner {
-  stroke: #1976d2 !important;
-}
-
-.loading-indicator {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: auto;
+:host {
+  display: block;
   width: 100%;
-  gap: 2rem;
-
-  p {
-    font-size: 1.2rem;
-    color: #666;
-  }
+  height: 100%;
 }
 
-.app-layout {
-  display: flex;
-  gap: 2rem;
+.bg-background {
+  background-color: var(--background);
+  color: var(--foreground);
 }
 
-.sidebar {
-  flex: 1;
-  max-width: 20vw;
+.bg-card {
+  background-color: var(--card);
+  color: var(--card-foreground);
 }
 
-.main-content {
-  flex: 2;
-  max-width: 73vw;
-}
-.pagination-controls {
-  position: sticky;
-  display: flex;
-  align-items: center;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  flex-wrap: wrap;
-  gap: 15px;
+.text-primary {
+  color: var(--primary) !important;
 }
 
-.pagination-controls.bottom {
-  justify-content: start;
-  margin-top: 10px;
-  width: 130%;
+.text-muted-foreground {
+  color: var(--muted-foreground);
 }
 
-.pagination-buttons {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.border-b {
+  border-bottom: 1px solid var(--border);
 }
 
-.pagination-btn {
-  border: 1px solid #ddd;
-  background: white;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.pagination-btn:hover:not(:disabled) {
-  background: #007bff;
-  color: white;
-  border-color: #007bff;
-}
-
-.pagination-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.page-numbers {
-  display: flex;
-  gap: 5px;
-}
-
-.page-btn {
-  border: 1px solid #ddd;
-  background: white;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.page-btn.active {
-  background: #007bff;
-  color: white;
-  border-color: #007bff;
-}
-
-.page-btn:hover:not(.active) {
-  background: #f8f9fa;
-}
-
-.items-per-page {
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.items-per-page select {
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.pagination-info {
-  font-weight: 500;
-  color: #495057;
-}
-
-.update-data {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-@media (max-width: 768px) {
-  .pagination-controls {
-    justify-content: center !important;
-    width: 100% !important;
-    text-align: center;
-  }
-
-  .pagination-buttons {
-    justify-content: center;
-  }
-
-  .page-numbers {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-}
-
-
-@media (max-width: 992px) {
-  .app-layout {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    max-width: 100%;
-  }
+.border-border {
+  border-color: var(--border);
 }

@@ -1,100 +1,84 @@
-<div class="app-container">
-  <div class="app-content">
-    <div class="app-layout">
-      <div class="sidebar">
-        <app-filter-bar
-          (filtersChange)="onFiltersChange($event)"
-        ></app-filter-bar>
+<div class="max-height bg-background">
+  <div class="border-b bg-card">
+    <div class="flex justify-between p-3">
+      <div class="flex items-center gap-3">
+        <mat-icon class="h-8 w-8 text-primary">bar_chart</mat-icon>
+        <div >
+          <h1 class="text-2xl font-medium">Busy places Dashboard</h1>
+          <p class="text-sm text-muted-foreground">
+            Track how busy places are throughout the week
+          </p>
+        </div>
+      </div>
+      <button class="align-self-end" (click)="updateData()">
+        Update API
+      </button>
+    </div>
+  </div>
 
-        @if (isLoading()) {
-          <div class="loading-indicator">
-            <mat-progress-spinner
-              name="loading-spinner"
-              diameter="30"
-              strokeWidth="4"
-              mode="indeterminate"
-              color="primary">
-            </mat-progress-spinner>
-            <p>Loading places...</p>
+  <div class="container mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div class="lg:col-span-3">
+        <mat-card class="h-full">
+          <mat-card-header>
+            <mat-card-title>Filters</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="overflow-auto h-[calc(100vh-120px)]">
+            <app-filter-panel
+              [filters]="filters()"
+              (filtersChange)="onFiltersChange($event)">
+            </app-filter-panel>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="lg:col-span-4">
+        <mat-card class="h-full">
+          <mat-card-header>
+            <mat-card-title class="flex items-center gap-2">
+              <mat-icon>place</mat-icon>
+              Places ({{ totalItems() }})
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="p-0 overflow-auto h-[calc(100vh-120px)] px-6 pb-6" id="places-scroll-container">
+            <app-places-list
+              [places]="places()"
+              [selectedPlace]="selectedPlace()"
+              [isLoading]="isLoading()"
+              (placeSelect)="onPlaceSelect($event)"
+              (loadMore)="loadMorePlaces()">
+            </app-places-list>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="lg:col-span-5">
+        @if (selectedPlace(); as place) {
+          <div class="space-y-6 h-full">
+            <div class="h-fit">
+              <app-place-detail [place]="place"></app-place-detail>
+            </div>
+
+            <hr class="border-border">
+            <div class="h-fit">
+              <app-busy-time-chart
+                [data]="place.busyTimes"
+                [placeName]="place.name">
+              </app-busy-time-chart>
+            </div>
           </div>
         } @else {
-          <div>
-          <app-places-list
-            [places]="filteredPlaces()"
-            [totalItems]="totalItems"
-            [selectedPlace]="selectedPlace()"
-            (selectPlace)="onSelectPlace($event)"
-          ></app-places-list>
-              <div class="pagination-controls bottom">
-                <div class="pagination-buttons">
-                  <button
-                    (click)="onPageChange(currentPage - 1)"
-                    [disabled]="!hasPreviousPage()"
-                    class="pagination-btn"
-                  >
-                    <
-                  </button>
-
-                  <div class="page-numbers">
-                    @for (page of visiblePages; track page) {
-                      @if (page) {
-                        <button
-                          (click)="onPageChange(page)"
-                          [class.active]="page === currentPage"
-                          class="page-btn"
-                        >
-                          {{ page }}
-                        </button>
-                      } @else {
-                        <span class="dots">...</span>
-                      }
-
-                    }
-                  </div>
-
-                  <button
-                    (click)="onPageChange(currentPage + 1)"
-                    [disabled]="!hasNextPage()"
-                    class="pagination-btn"
-                  >
-                    >
-                  </button>
-                </div>
-                <div class="items-per-page">
-                  <label for="itemsPerPage">Itens por página:</label>
-                  <select
-                    id="itemsPerPage"
-                    [value]="itemsPerPage"
-                    (change)="onItemsPerPageChange($any($event.target).value)"
-                  >
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                  </select>
-                </div>
-              </div>
-          </div>
-
+          <mat-card class="h-full flex items-center justify-center">
+            <mat-card-content class="text-center">
+              <mat-icon class="h-16 w-16 text-muted-foreground mx-auto mb-4 text-6xl">bar_chart</mat-icon>
+              <h3 class="text-xl font-medium mb-2">Select a Place</h3>
+              <p class="text-muted-foreground max-w-md">
+                Choose a place from the list to view detailed information and crowdedness patterns throughout the week.
+              </p>
+            </mat-card-content>
+          </mat-card>
         }
       </div>
-
-      <div style="width: 100%;">
-        <h1 class="app-header">{{ title() }}</h1>
-      @if(selectedPlace()) {
-      <div class="main-content">
-        <app-place-details
-          [place]="selectedPlace()"
-        ></app-place-details>
-      </div>
-      }
-      </div>
-      <div class="update-data">
-        <button (click)="updateData()">
-          Update data from api
-        </button>
-      </div>
-      <router-outlet></router-outlet>
     </div>
   </div>
 </div>

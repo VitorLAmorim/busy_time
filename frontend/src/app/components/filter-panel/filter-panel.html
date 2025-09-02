@@ -1,0 +1,100 @@
+<div class="space-y-6">
+  <!-- Search -->
+  <mat-card>
+    <mat-card-header class="pb-3">
+      <mat-card-title class="flex items-center gap-2">
+        <mat-icon>search</mat-icon>
+        Search
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field  class="w-full">
+        <mat-label>Search by name or address</mat-label>
+        <input
+          matInput
+          [formControl]="searchFromControl"
+          placeholder="Search by name or address...">
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Place Type -->
+  <mat-card>
+    <mat-card-header class="pb-3">
+      <mat-card-title class="flex items-center gap-2">
+        <mat-icon>filter_list</mat-icon>
+        Place Type
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field  class="w-full">
+        <mat-label>Select type</mat-label>
+        <mat-select
+          [value]="filters.type"
+          [multiple]="true"
+          (selectionChange)="updateFilter('type', $event.value)">
+          @for (option of placeTypeOptions; track option.value) {
+            <mat-option [value]="option.value">
+              {{ option.label }}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="h-fit">
+    <mat-card-header class="pb-3">
+      <mat-card-title class="flex items-center gap-2">
+        <mat-icon>star</mat-icon>
+        Star Rating
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="space-y-4">
+      <div>
+        <label class="block mb-2">Minimum Rating: {{ filters.minRating }}</label>
+        <mat-slider
+          class="w-full"
+          [min]="0"
+          [max]="5"
+          [step]="0.1"
+        >
+          <input matSliderThumb [value]="filters.minRating" (dragEnd)="onMinRatingChange($event.value)"/>
+        </mat-slider>
+      </div>
+      <div>
+        <label class="block mb-2">Minimum Reviews: {{ filters.minReviews }}</label>
+        <mat-slider
+          class="w-full"
+          [min]="0"
+          [max]="10000"
+          [step]="1"
+          >
+          <input matSliderThumb [value]="filters.minReviews" (dragEnd)="onMinReviewsChange($event.value)"/>
+        </mat-slider>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Price Level -->
+  <mat-card>
+    <mat-card-header class="pb-3">
+      <mat-card-title class="flex items-center gap-2">
+        <mat-icon>attach_money</mat-icon>
+        Price Level
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="space-y-3">
+      <div>
+        <label class="block mb-2">Price Level: {{ filters.priceLevel === 0 ? "All prices" : filters.priceLevel }}</label>
+        <mat-slider
+          class="w-full"
+          [min]="0"
+          [max]="4"
+          [step]="1"
+          showTickMarks>
+          <input matSliderThumb [value]="filters.priceLevel" (dragEnd)="onPriceLevelChange($event.value)"/>
+        </mat-slider>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
