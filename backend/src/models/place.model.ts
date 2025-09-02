@@ -14,7 +14,7 @@ export interface IPlace extends Document {
     reviews: number;
     priceLevel?: number;
     location: { lat: number; lng: number };
-    lastSearchDay: string;
+    lastSearchDay: number;
     lastSearchDayOpenTime: number;
     lastSearchDayCloseTime: number;
     busyTimes: IBusyTimes[];
@@ -31,7 +31,7 @@ const PlaceSchema = new Schema<IPlace>(
         rating: { type: Number, required: true },
         reviews: { type: Number, required: true },
         priceLevel: { type: Number },
-        lastSearchDay: {type: String},
+        lastSearchDay: {type: Number},
         lastSearchDayOpenTime: {type: Number},
         lastSearchDayCloseTime: {type: Number},
         location: {
