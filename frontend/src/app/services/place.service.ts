@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Place } from '../models/place.model';
-import {Filters} from '../components/filter-bar/filter-bar';
+import { FilterState } from '../components/filter-panel/filter-panel';
 import { environment } from '../../environments/environment';
 
 /**
@@ -17,7 +17,7 @@ import { environment } from '../../environments/environment';
 export interface GetPlacesParams {
   page?: number;
   limit?: number;
-  filters?: Filters;
+  filters?: FilterState;
   queryFields?: string[];
   sortBy?: string;
   sortOrder?: 'asc' | 'desc';
@@ -57,8 +57,8 @@ export interface PaginatedResponse<T> {
 export class PlaceService {
     private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {
-  }
+    constructor(private http: HttpClient) {
+    }
 
   getPlaces(params: GetPlacesParams = {}): Observable<PaginatedResponse<Place>> {
     const {
@@ -77,8 +77,7 @@ export class PlaceService {
       .set('sortOrder', sortOrder);
 
     if (filters) {
-      if (filters.name) httpParams = httpParams.set('name', filters.name);
-      if (filters.address) httpParams = httpParams.set('address', filters.address);
+      if (filters.search) httpParams = httpParams.set('name', filters.search);
       if (filters.minRating) httpParams = httpParams.set('minRating', filters.minRating.toString());
       if (filters.minReviews) httpParams = httpParams.set('minReviews', filters.minReviews.toString());
       if (filters.priceLevel) httpParams = httpParams.set('priceLevel', filters.priceLevel.toString());

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { FilterBarComponent } from './filter-bar';
+import { FilterBarComponent } from './filter-panel';
 import { PlaceType } from '../../models/place.model';
 import {provideZonelessChangeDetection} from '@angular/core';
 

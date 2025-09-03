@@ -1,23 +1,53 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Place } from '../../models/place.model';
-import { BusyTimeChartComponent } from '../busy-time-chart/busy-time-chart';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import {dayLabels, Place, formatPlaceType} from '../../models/place.model';
+import { PriceLevelLabelPipe } from '../pipes/priceLevelLabelPipe'
 
 @Component({
-  selector: 'app-place-details',
+  selector: 'app-place-detail',
   standalone: true,
-  imports: [CommonModule, BusyTimeChartComponent],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatChipsModule,
+    MatIconModule,
+    MatDividerModule,
+    PriceLevelLabelPipe
+  ],
   templateUrl: './place-details.html',
   styleUrl: './place-details.scss'
 })
 export class PlaceDetailsComponent {
-  @Input() place: Place | null = null;
+  @Input() place!: Place;
 
-  getPlaceTypeLabel(type: string): string {
-    return type.charAt(0).toUpperCase() + type.slice(1);
+  getStarArray(rating: number): Array<'full' | 'half' | 'empty'> {
+    const stars: Array<'full' | 'half' | 'empty'> = [];
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 !== 0;
+
+    for (let i = 0; i < fullStars; i++) {
+      stars.push('full');
+    }
+
+    if (hasHalfStar) {
+      stars.push('half');
+    }
+
+    while (stars.length < 5) {
+      stars.push('empty');
+    }
+
+    return stars;
   }
 
-  range(n: number) {
-    return Array.from({ length: n }, (_, i) => i);
+  formatLocation(lat: number, lng: number): string {
+    return `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
   }
+
+  protected readonly dayLabels = dayLabels;
+  protected readonly formatPlaceType = formatPlaceType;
 }

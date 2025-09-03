@@ -13,6 +13,8 @@ interface Venue {
     price_level?: number;
     day_info: {
         day_int: number;
+        venue_open: number;
+        venue_closed: number;
     };
     day_raw: number[];
 }
@@ -129,6 +131,9 @@ async function processVenuesWithConcurrency(venues: Venue[], concurrency = 5) {
                         rating: venue.rating,
                         reviews: venue.reviews,
                         priceLevel: venue.price_level,
+                        lastSearchDay: dayInt,
+                        lastSearchDayOpenTime: venue.day_info.venue_open,
+                        lastSearchDayCloseTime: venue.day_info.venue_closed,
                         "location.lat": venue.venue_lat,
                         "location.lng": venue.venue_lng,
                         updatedAt: new Date(),
@@ -182,7 +187,7 @@ function mockPlaces(): BestTimeResponse {
                 rating: 3.8,
                 reviews: 2500,
                 price_level: 2,
-                day_info: { day_int: Math.floor(Math.random() * 7) },
+                day_info: { day_int: Math.floor(Math.random() * 7), venue_open: Math.floor(Math.random() * 10), venue_closed: Math.floor(Math.random() * 12) + 12 },
                 day_raw: Array(24).fill(0).map((_, i) => {
                     const value = 50 + Math.sin(i / 24 * Math.PI * 2) * 40;
                     return Math.min(100, Math.max(0, Math.round(value)));
@@ -198,7 +203,7 @@ function mockPlaces(): BestTimeResponse {
                 rating: 4.2,
                 reviews: 1800,
                 price_level: 2,
-                day_info: { day_int: Math.floor(Math.random() * 7) },
+                day_info: { day_int: Math.floor(Math.random() * 7), venue_open: Math.floor(Math.random() * 10), venue_closed: Math.floor(Math.random() * 12) + 12 },
                 day_raw: Array(24).fill(0).map((_, i) => {
                     const value = 50 + Math.sin(i / 24 * Math.PI * 2) * 40;
                     return Math.min(100, Math.max(0, Math.round(value)));
@@ -214,7 +219,7 @@ function mockPlaces(): BestTimeResponse {
                 rating: 4.5,
                 reviews: 3000,
                 price_level: 2,
-                day_info: { day_int: Math.floor(Math.random() * 7) },
+                day_info: { day_int: Math.floor(Math.random() * 7), venue_open: Math.floor(Math.random() * 10), venue_closed: Math.floor(Math.random() * 12) + 12 },
                 day_raw: Array(24).fill(0).map((_, i) => {
                     const value = 50 + Math.sin(i / 24 * Math.PI * 2) * 40;
                     return Math.min(100, Math.max(0, Math.round(value)));

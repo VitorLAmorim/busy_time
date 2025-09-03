@@ -1,47 +1,136 @@
-.places-list {
-  max-height: 80vh;
-  overflow-y: auto;
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 1rem;
-  background-color: #cccccc;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.space-y-3 > * + * {
+  margin-top: 0.75rem;
 }
 
-.places-list-header {
-  margin-bottom: 1.5rem;
+.space-y-2 > * + * {
+  margin-top: 0.5rem;
+}
 
-  h2 {
-    margin: 0 0 0.5rem 0;
-    color: #333;
-    font-size: 1.75rem;
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.transition-all {
+  transition: all 0.2s ease;
+}
+
+.place-card {
+  &:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    background-color: #cccccc;
   }
 
-  p {
-    margin: 0;
-    color: #666;
-    font-size: 0.9rem;
+  &.selected {
+    border: 2px solid var(--primary);
+    box-shadow: 0 0 0 1px var(--primary);
   }
 }
 
-.places-list-content {
+.flex {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
 }
 
-@media (max-width: 768px) {
-  .places-list {
-    padding: 0.5rem;
-  }
+.items-center {
+  align-items: center;
+}
 
-  .places-list-header {
-    margin-bottom: 1rem;
+.items-start {
+  align-items: flex-start;
+}
 
-    h2 {
-      font-size: 1.5rem;
-    }
-  }
+.justify-between {
+  justify-content: space-between;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.gap-1 {
+  gap: 0.25rem;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.mt-1 {
+  margin-top: 0.25rem;
+}
+
+.ml-1 {
+  margin-left: 0.25rem;
+}
+
+.mt-0\.5 {
+  margin-top: 0.125rem;
+}
+
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
+
+.leading-tight {
+  line-height: 1.25;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.text-muted-foreground {
+  color: var(--muted-foreground);
+}
+
+.text-yellow-400 {
+  color: #fbbf24;
+}
+
+.text-gray-300 {
+  color: #d1d5db;
+}
+
+.h-3 {
+  height: 0.75rem;
+}
+
+.w-3 {
+  width: 0.75rem;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+mat-icon {
+  font-size: inherit !important;
+  height: inherit !important;
+  width: inherit !important;
+}
+
+.CAFE {
+  background-color: #f6d0c1 !important;
+}
+.BAR {
+  background-color: #d0e5fb !important;
+}
+.CLUBS {
+  background-color: #d3f6d3 !important;
 }

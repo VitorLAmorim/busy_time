@@ -1,0 +1,117 @@
+<div class="space-y-6">
+  <!-- Search -->
+  <mat-card>
+    <mat-card-header class="pb-3">
+      <mat-card-title class="flex items-center gap-2">
+        <mat-icon>search</mat-icon>
+        Search
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field  class="w-full">
+        <mat-label>Search by name or address</mat-label>
+        <input
+          matInput
+          [formControl]="searchFromControl"
+          placeholder="Search by name or address...">
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Place Type -->
+  <mat-card>
+    <mat-card-header class="pb-3">
+      <mat-card-title class="flex items-center gap-2">
+        <mat-icon>filter_list</mat-icon>
+        Place Type
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field  class="w-full">
+        <mat-label>Select type</mat-label>
+        <mat-select
+          [value]="filters.type"
+          [multiple]="true"
+          (selectionChange)="updateFilter('type', $event.value)">
+          @for (option of placeTypeOptions; track option.value) {
+            <mat-option [value]="option.value">
+              {{ option.label }}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="h-fit">
+    <mat-card-header class="pb-3">
+      <mat-card-title class="flex items-center gap-2">
+        <mat-icon>star</mat-icon>
+        Star Rating
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="space-y-4">
+      <div>
+        <label class="block mb-2">Minimum Rating: {{ filters.minRating }}</label>
+        <div class="btn-group">
+          @for (i of [1, 2, 2.5, 3, 3.5, 4, 4.5]; track i) {
+            <ng-container
+              [ngTemplateOutlet]="templateRef"
+              [ngTemplateOutletContext]="
+                { text: i,
+                  action: onMinRatingChange.bind(this, i),
+                  isActive: filters.minRating === i
+                  }"
+            ></ng-container>
+          }
+        </div>
+      </div>
+      <div>
+        <label class="block mb-2">Minimum Reviews: {{ filters.minReviews }}</label>
+        <div class="btn-group">
+          @for (i of [100, 500, 1000, 2000, 5000]; track i) {
+            <ng-container
+              [ngTemplateOutlet]="templateRef"
+              [ngTemplateOutletContext]="
+                { text: i,
+                  action: onMinReviewsChange.bind(this, i),
+                  isActive: filters.minReviews === i
+                  }"
+            ></ng-container>
+          }
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Price Level -->
+  <mat-card>
+    <mat-card-header class="pb-3">
+      <mat-card-title class="flex items-center gap-2">
+        <mat-icon>attach_money</mat-icon>
+        Price Level
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="space-y-3">
+      <div>
+        <label class="block mb-2">Price Level:</label>
+        <div class="btn-group">
+          @for (i of [1,2,3,4]; track i) {
+            <ng-container
+              [ngTemplateOutlet]="templateRef"
+              [ngTemplateOutletContext]="
+                { text: i == 1 ? '$' : i == 2 ? '$$' : i == 3 ? '$$$' : '$$$$',
+                  action: onPriceLevelChange.bind(this, i),
+                  isActive: filters.priceLevel === i
+                  }"
+            ></ng-container>
+          }
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+
+    <ng-template #templateRef let-text="text" let-action='action' let-isActive= 'isActive' >
+          <button class="btn {{isActive ? 'btn-active' : ''}}" (click)="action()">{{ text }}</button>
+    </ng-template>
+</div>

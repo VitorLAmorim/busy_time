@@ -1,20 +1,81 @@
-<div class="places-list">
-  <div class="places-list-header">
-    <h2>Places in Warsaw</h2>
-    @if (totalItems > 0 ) {
-      <p>{{ totalItems }} places found</p>
-    } @else {
-      <p>No places found</p>
-    }
-  </div>
+<div class="places-container h-full overflow-y-auto">
+  @if (places.length === 0 && !isLoading) {
+    <div class="text-center py-8 text-muted-foreground">
+      <p>No places match your current filters.</p>
+    </div>
+  } @else {
+    <div class="space-y-3">
+    @for (place of places; track trackByPlaceId($index, place)) {
+      <mat-card
+        [class.selected]="isSelected(place)"
+        class="cursor-pointer transition-all hover:shadow-md place-card"
+        (click)="onPlaceClick(place)">
+        <mat-card-content class="p-4">
+          <div class="space-y-2">
+            <div class="flex items-start justify-between">
+              <div class="flex-1">
+                <h3 class="font-medium leading-tight">{{ place.name }}</h3>
+                <div class="flex items-center gap-2 mt-1">
+                  <mat-chip-set>
+                    <mat-chip class="text-xs {{place.type}}">
+                      {{ formatPlaceType(place.type) }}
+                    </mat-chip>
+                  </mat-chip-set>
+                  @if (place.priceLevel) {
+                    <span class="text-muted-foreground">
+                      {{ place.priceLevel | priceLevelLabel }}
+                    </span>
+                  }
+                </div>
+              </div>
+              <div class="text-xs">
+                <div class="flex items-center gap-1">
+                  @for (star of getStarArray(place.rating); track $index) {
+                    @switch (star) {
+                      @case ('full') {
+                        <mat-icon class="h-3 w-3 text-yellow-400">star</mat-icon>
+                      }
+                      @case ('half') {
+                        <mat-icon class="h-3 w-3 text-yellow-400">star_half</mat-icon>
+                      }
+                      @case ('empty') {
+                        <mat-icon class="h-3 w-3 text-gray-300">star_border</mat-icon>
+                      }
+                    }
+                  }
+                  <span class="ml-1">{{ place.rating.toFixed(1) }}</span>
+                </div>
+              </div>
+            </div>
 
-  <div class="places-list-content">
-    @for (place of places; track place.placeId) {
-    <app-place-item
-      [place]="place"
-      [selected]="isSelected(place)"
-      (selectPlace)="onSelectPlace($event)"
-    ></app-place-item>
+            <div class="flex items-start gap-2 text-sm text-muted-foreground">
+              <mat-icon class="h-3 w-3 mt-0.5 flex-shrink-0">place</mat-icon>
+              <span class="leading-tight">{{ place.address }}</span>
+            </div>
+
+            <div class="flex items-center gap-2 text-sm text-muted-foreground">
+              <mat-icon class="h-3 w-3">message</mat-icon>
+              <span>{{ place.reviews }} reviews</span>
+            </div>
+
+            @if (place.lastSearchDay && place.lastSearchDayOpenTime !== undefined && place.lastSearchDayCloseTime !== undefined) {
+              <div class="flex items-center gap-2 text-sm text-muted-foreground">
+                <mat-icon class="h-3 w-3">schedule</mat-icon>
+                <span>
+                  {{ dayLabels[place.lastSearchDay] }}: {{ place.lastSearchDayOpenTime }}:00 - {{ place.lastSearchDayCloseTime }}:00
+                </span>
+              </div>
+            }
+          </div>
+        </mat-card-content>
+      </mat-card>
+    }
+
+    @if (isLoading) {
+      <div class="flex justify-center py-4">
+        <mat-spinner diameter="24"></mat-spinner>
+      </div>
     }
   </div>
+  }
 </div>

@@ -1,297 +1,129 @@
-.busy-time-chart {
+.h-full {
+  height: 100%;
+}
+
+.w-full {
   width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  box-sizing: border-box;
+}
 
-  h3 {
-    margin: 0;
-    margin-bottom: 10px;
-    color: #2c3e50;
-    text-align: center;
-    font-size: 1.5rem;
-    font-weight: 600;
-  }
+.space-y-4 > * + * {
+  margin-top: 1rem;
+}
 
-  .chart-container {
-    margin-bottom: 1.5rem;
-    overflow-x: auto;
-    padding-bottom: 0.5rem;
-  }
+.pt-4 {
+  padding-top: 1rem;
+}
 
-  .day-row {
-    display: flex;
-    margin-bottom: 1.25rem;
-    align-items: flex-end;
-    min-width: fit-content;
-    height: 80px;
-    border-radius: 0.5rem;
-    background-color: #e3e3e3;
+.grid {
+  display: grid;
+}
 
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
 
-  .day-label {
-    margin-left: .25rem;
-    width: 100px;
-    font-weight: 500;
-    color: #2c3e50;
-    text-align: left;
-    font-size: 0.9rem;
-    align-self: center;
-  }
+.gap-4 {
+  gap: 1rem;
+}
 
-  .hours-container {
-    display: flex;
-    flex-grow: 1;
-    gap: 0.15rem;
-    align-items: flex-end;
-    padding-bottom: 25px;
-    position: relative;
-    min-height: 100px;
-    overflow-x: auto;
-    padding-right: 1rem;
-    scrollbar-width: thin;
-    scrollbar-color: #ccc transparent;
-    width: 100%;
+.mb-4 {
+  margin-bottom: 1rem;
+}
 
-    &::-webkit-scrollbar {
-      height: 6px;
-    }
+.h-64 {
+  height: 16rem;
+}
 
-    &::-webkit-scrollbar-thumb {
-      background-color: #ccc;
-      border-radius: 3px;
-    }
+.flex {
+  display: flex;
+}
 
-    // Hide scrollbar when not needed
-    @media (min-width: 1200px) {
-      overflow-x: hidden;
-      padding-right: 5px;
-      justify-content: space-between;
-    }
-  }
+.items-center {
+  align-items: center;
+}
 
-  .hour-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 8px;
-    width: calc(100% / 28); // Distribute space evenly among 24 hours
-    flex: 1 0 auto;
-    position: relative;
-    transition: all 0.2s ease;
+.justify-center {
+  justify-content: center;
+}
 
-    &:hover {
-      transform: translateY(-2px);
-      z-index: 2;
+.gap-1 {
+  gap: 0.25rem;
+}
 
-      .bar {
-        opacity: 0.9;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      }
-    }
-  }
+.gap-2 {
+  gap: 0.5rem;
+}
 
-  .bar-container {
-    width: 100%;
-    height: 55px;
-    display: flex;
-    align-items: flex-end;
-    position: relative;
-  }
+.space-x-6 > * + * {
+  margin-left: 1.5rem;
+}
 
-  .bar {
-    width: 100%;
-    min-height: 2px;
-    border-radius: 2px 2px 0 0;
-    transition: all 0.3s ease;
-    position: relative;
-    background: linear-gradient(to top, rgba(0,0,0,0.1), transparent);
-    opacity: 0.8;
-  }
+.text-xs {
+  font-size: 0.75rem;
+}
 
-  .hour-label {
-    position: absolute;
-    bottom: -20px;
-    font-size: 0.65rem;
-    color: #7f8c8d;
-    white-space: nowrap;
-    transform: translateX(-50%);
-    left: 50%;
-    font-weight: 500;
+.text-sm {
+  font-size: 0.875rem;
+}
 
-    &.empty {
-      display: none;
-    }
+.font-medium {
+  font-weight: 500;
+}
 
-    &:not(.empty) {
-      font-weight: 600;
-      color: #5d6d7e;
-    }
-  }
+.text-muted-foreground {
+  color: var(--muted-foreground);
+}
 
-  .busy-level {
-    position: absolute;
-    top: -16px;
-    font-size: 0.65rem;
-    font-weight: 600;
-    color: #2c3e50;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 1px 4px;
-    border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    white-space: nowrap;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-    z-index: 2;
-    pointer-events: none;
-  }
+.h-3 {
+  height: 0.75rem;
+}
 
-  .hour-container:hover .busy-level {
-    opacity: 1;
-  }
+.w-3 {
+  width: 0.75rem;
+}
 
-  .legend {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 1.5rem;
-    padding-top: 1rem;
-    border-top: 1px solid #eee;
+.h-4 {
+  height: 1rem;
+}
 
-    .legend-item {
-      display: flex;
-      align-items: center;
-      background: #f8f9fa;
-      padding: 0.4rem 0.8rem;
-      border-radius: 20px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+.w-4 {
+  width: 1rem;
+}
 
-      .color-box {
-        width: 16px;
-        height: 16px;
-        border-radius: 3px;
-        margin-right: 0.5rem;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-      }
+.h-5 {
+  height: 1.25rem;
+}
 
-      span {
-        font-size: 0.8rem;
-        color: #555;
-        font-weight: 500;
-      }
-    }
-  }
+.w-5 {
+  width: 1.25rem;
+}
 
-  // Responsive breakpoints
-  @media (min-width: 1600px) {
-    .hours-container {
-      gap: 0.25rem;
-    }
+.rounded-full {
+  border-radius: 9999px;
+}
 
-    .hour-container {
-      min-width: 10px;
-    }
-  }
+.bg-green-500 {
+  background-color: #10b981;
+}
 
-  @media (max-width: 1599px) and (min-width: 1200px) {
-    .hours-container {
-      gap: 0.15rem;
-    }
+.bg-yellow-500 {
+  background-color: #f59e0b;
+}
 
-    .hour-container {
-      min-width: 8px;
-    }
-  }
+.bg-orange-500 {
+  background-color: #f97316;
+}
 
-  @media (max-width: 1199px) and (min-width: 992px) {
-    .hours-container {
-      gap: 0.1rem;
-    }
+.bg-red-500 {
+  background-color: #ef4444;
+}
 
-    .hour-container {
-      min-width: 6px;
-    }
-  }
+.p-4 {
+  padding: 1rem;
+}
 
-  @media (max-width: 991px) and (min-width: 768px) {
-    .hours-container {
-      gap: 0.1rem;
-    }
-
-    .hour-container {
-      min-width: 5px;
-    }
-  }
-
-  @media (max-width: 767px) {
-    padding: 0.8rem;
-
-    h3 {
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
-    }
-
-    .day-label {
-      width: 50px;
-      font-size: 0.7rem;
-      padding-right: 0.5rem;
-    }
-
-    .day-row {
-      margin-bottom: 1rem;
-      height: 60px;
-    }
-
-    .hours-container {
-      min-height: 60px;
-      gap: 1rem;
-      padding-bottom: 20px;
-    }
-
-    .bar-container {
-      height: 40px;
-    }
-
-    .hour-container {
-      min-width: 16px;
-      width: 12px;
-    }
-
-    .hour-label {
-      font-size: 0.6rem;
-      bottom: -18px;
-    }
-
-    .busy-level {
-      font-size: 0.6rem;
-      top: -20px;
-    }
-
-    .legend {
-      gap: 0.8rem;
-      margin-top: 1.5rem;
-      padding-top: 1.2rem;
-
-      .legend-item {
-        padding: 0.3rem 0.6rem;
-
-        .color-box {
-          width: 14px;
-          height: 14px;
-        }
-
-        span {
-          font-size: 0.75rem;
-        }
-      }
-    }
-  }
+mat-icon {
+  font-size: inherit !important;
+  height: inherit !important;
+  width: inherit !important;
 }
