@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {dayLabels, formatPlaceType, Place} from '../../models/place.model';
 import { PriceLevelLabelPipe } from '../pipes/priceLevelLabelPipe';
+import {getStarArray} from '../util/utils';
 
 @Component({
   selector: 'app-places-list',
@@ -61,28 +62,6 @@ export class PlacesListComponent implements AfterViewInit, OnDestroy {
     this.placeSelect.emit(place);
   }
 
-
-
-  getStarArray(rating: number): Array<'full' | 'half' | 'empty'> {
-    const stars: Array<'full' | 'half' | 'empty'> = [];
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 !== 0;
-
-    for (let i = 0; i < fullStars; i++) {
-      stars.push('full');
-    }
-
-    if (hasHalfStar) {
-      stars.push('half');
-    }
-
-    while (stars.length < 5) {
-      stars.push('empty');
-    }
-
-    return stars;
-  }
-
   isSelected(place: Place): boolean {
     return this.selectedPlace?.placeId === place.placeId;
   }
@@ -93,4 +72,5 @@ export class PlacesListComponent implements AfterViewInit, OnDestroy {
 
   protected readonly dayLabels = dayLabels;
   protected readonly formatPlaceType = formatPlaceType;
+  public readonly getStarArray = getStarArray;
 }

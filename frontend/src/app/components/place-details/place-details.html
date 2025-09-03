@@ -78,11 +78,11 @@
         <div class="space-y-2 ml-6">
           <div class="flex justify-between items-center text-sm">
             <span class="text-muted-foreground">Search Day:</span>
-            <span class="font-medium">{{ dayLabels[place.lastSearchDay] }}</span>
+            <span class="font-medium" id="search-day">{{ dayLabels[place.lastSearchDay] }}</span>
           </div>
           <div class="flex justify-between items-center text-sm">
             <span class="text-muted-foreground">Opening Hours:</span>
-            <span class="font-medium">
+            <span class="font-medium" id="opening-hours">
               {{ place.lastSearchDayOpenTime }}:00 - {{ place.lastSearchDayCloseTime }}:00
             </span>
           </div>

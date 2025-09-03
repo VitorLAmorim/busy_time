@@ -1,4 +1,4 @@
-import {Component, effect, inject, signal} from '@angular/core';
+import {Component, effect, inject, OnInit, signal} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Place } from './models/place.model';
 import {FilterPanelComponent, FilterState} from './components/filter-panel/filter-panel';
@@ -25,7 +25,7 @@ import Swal from 'sweetalert2';
   templateUrl: './app.html',
   styleUrls: ['./app.scss']
 })
-export class App {
+export class App implements OnInit {
   private placeService = inject(PlaceService);
   selectedPlace = signal<Place | null>(null);
   filters = signal<FilterState>({
@@ -64,8 +64,6 @@ export class App {
   }
 
   constructor() {
-    this.loadPlaces(this.buildQuery());
-
     effect(() => {
       const filters = this.filters();
       this.selectedPlace.set(null);
@@ -78,7 +76,9 @@ export class App {
     })
   }
 
-
+  ngOnInit(): void {
+    this.loadPlaces(this.buildQuery());
+  }
 
   loadPlaces(query: any, append: boolean = false): void {
     if (this.isLoading()) return;
