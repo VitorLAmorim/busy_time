@@ -39,7 +39,7 @@ export class App {
   isLoading = signal(false);
   errorMessage = signal<string | null>(null);
 
-  currentPage = signal(1);
+  currentPage = 1;
   itemsPerPage = 10;
 
   totalItems = signal(0);
@@ -52,9 +52,9 @@ export class App {
   private sortBy = 'name';
   private sortOrder = 'asc';
 
-  private buildQuery(resetPage = false) {
+  private buildQuery() {
     return {
-      page: resetPage ? 1 : this.currentPage(),
+      page: this.currentPage,
       limit: this.itemsPerPage,
       filters: this.filters(),
       queryFields: this.queryFields,
@@ -67,26 +67,17 @@ export class App {
     this.loadPlaces(this.buildQuery());
 
     effect(() => {
-      const currentPage = this.currentPage();
-
-      const timer = setTimeout(() => {
-        this.loadPlaces(this.buildQuery(), currentPage > 1);
-      }, 100);
-
-      return () => clearTimeout(timer);
-    });
-
-    effect(() => {
       const filters = this.filters();
+      this.currentPage = 1;
+        const timer = setTimeout(() => {
+          this.loadPlaces(this.buildQuery(), false);
+        }, 100);
 
-      const timer = setTimeout(() => {
-        this.loadPlaces(this.buildQuery(true));
-      }, 100);
-
-      return () => clearTimeout(timer);
-
+        return () => clearTimeout(timer);
     })
   }
+
+
 
   loadPlaces(query: any, append: boolean = false): void {
     if (this.isLoading()) return;
@@ -113,9 +104,10 @@ export class App {
   }
 
   loadMorePlaces(): void {
-    if (this.isLoading() || this.currentPage() >= this.totalPages) return;
+    if (this.isLoading() || this.currentPage >= this.totalPages) return;
 
-   this.currentPage.update(page => page + 1);
+   this.currentPage = this.currentPage + 1;
+   this.loadPlaces(this.buildQuery(), true);
   }
 
   updateData() {

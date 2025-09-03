@@ -17,7 +17,7 @@
                 <h3 class="font-medium leading-tight">{{ place.name }}</h3>
                 <div class="flex items-center gap-2 mt-1">
                   <mat-chip-set>
-                    <mat-chip class="text-xs">
+                    <mat-chip class="text-xs {{place.type}}">
                       {{ formatPlaceType(place.type) }}
                     </mat-chip>
                   </mat-chip-set>
@@ -62,7 +62,7 @@
               <div class="flex items-center gap-2 text-sm text-muted-foreground">
                 <mat-icon class="h-3 w-3">schedule</mat-icon>
                 <span>
-                  {{ place.lastSearchDay }}: {{ place.lastSearchDayOpenTime }}:00 - {{ place.lastSearchDayCloseTime }}:00
+                  {{ dayLabels[place.lastSearchDay] }}: {{ place.lastSearchDayOpenTime }}:00 - {{ place.lastSearchDayCloseTime }}:00
                 </span>
               </div>
             }

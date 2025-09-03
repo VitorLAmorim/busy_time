@@ -48,3 +48,7 @@ export const dayLabels: string[] = [
   'Friday',
   'Saturday'
 ]
+
+export function formatPlaceType(value: string): string {
+  return placeTypeLabels.find(t => t.value === value)?.label || value;
+}

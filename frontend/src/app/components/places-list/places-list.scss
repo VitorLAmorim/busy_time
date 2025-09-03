@@ -17,6 +17,7 @@
 .place-card {
   &:hover {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    background-color: #cccccc;
   }
 
   &.selected {
@@ -122,4 +123,14 @@ mat-icon {
   font-size: inherit !important;
   height: inherit !important;
   width: inherit !important;
+}
+
+.CAFE {
+  background-color: #f6d0c1 !important;
+}
+.BAR {
+  background-color: #d0e5fb !important;
+}
+.CLUBS {
+  background-color: #d3f6d3 !important;
 }

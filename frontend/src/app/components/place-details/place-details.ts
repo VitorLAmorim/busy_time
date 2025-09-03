@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
-import {dayLabels, Place} from '../../models/place.model';
+import {dayLabels, Place, formatPlaceType} from '../../models/place.model';
 import { PriceLevelLabelPipe } from '../pipes/priceLevelLabelPipe'
 
 @Component({
@@ -23,10 +23,6 @@ import { PriceLevelLabelPipe } from '../pipes/priceLevelLabelPipe'
 })
 export class PlaceDetailsComponent {
   @Input() place!: Place;
-
-  formatPlaceType(type: string): string {
-    return type.charAt(0).toUpperCase() + type.slice(1).replace(/_/g, ' ');
-  }
 
   getStarArray(rating: number): Array<'full' | 'half' | 'empty'> {
     const stars: Array<'full' | 'half' | 'empty'> = [];
@@ -53,4 +49,5 @@ export class PlaceDetailsComponent {
   }
 
   protected readonly dayLabels = dayLabels;
+  protected readonly formatPlaceType = formatPlaceType;
 }

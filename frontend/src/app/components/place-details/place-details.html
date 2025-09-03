@@ -6,7 +6,7 @@
           <mat-card-title class="text-xl">{{ place.name }}</mat-card-title>
           <div class="flex items-center gap-2">
             <mat-chip-set>
-              <mat-chip class="text-sm">
+              <mat-chip class="text-sm {{ place.type }}">
                 {{ formatPlaceType(place.type) }}
               </mat-chip>
             </mat-chip-set>

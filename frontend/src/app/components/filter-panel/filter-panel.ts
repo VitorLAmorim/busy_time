@@ -34,7 +34,7 @@ export interface FilterState {
     MatCheckboxModule,
     MatIconModule,
     MatFormFieldModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   templateUrl: './filter-panel.html',
   styleUrl: './filter-panel.scss'
@@ -62,15 +62,27 @@ export class FilterPanelComponent implements OnInit {
   }
 
 
-  onPriceLevelChange(value: number): void {
+  onPriceLevelChange(value: any): void {
+    if(this.filters.priceLevel === value) {
+      this.filters.priceLevel = 0;
+      value = 0;
+    }
     this.updateFilter('priceLevel', value);
   }
 
   onMinRatingChange(value: number): void {
+    if(this.filters.minRating === value) {
+      this.filters.minRating = 0;
+      value = 0;
+    }
     this.updateFilter('minRating', value);
   }
 
   onMinReviewsChange(value: number): void {
+    if(this.filters.minReviews === value) {
+      this.filters.minReviews = 0;
+      value = 0;
+    }
     this.updateFilter('minReviews', value);
   }
 }

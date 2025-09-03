@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Place } from '../../models/place.model';
+import {dayLabels, formatPlaceType, Place} from '../../models/place.model';
 import { PriceLevelLabelPipe } from '../pipes/priceLevelLabelPipe';
 
 @Component({
@@ -61,9 +61,7 @@ export class PlacesListComponent implements AfterViewInit, OnDestroy {
     this.placeSelect.emit(place);
   }
 
-  formatPlaceType(type: string): string {
-    return type.charAt(0).toUpperCase() + type.slice(1).replace(/_/g, ' ');
-  }
+
 
   getStarArray(rating: number): Array<'full' | 'half' | 'empty'> {
     const stars: Array<'full' | 'half' | 'empty'> = [];
@@ -92,4 +90,7 @@ export class PlacesListComponent implements AfterViewInit, OnDestroy {
   trackByPlaceId(index: number, place: Place): string {
     return place.placeId;
   }
+
+  protected readonly dayLabels = dayLabels;
+  protected readonly formatPlaceType = formatPlaceType;
 }

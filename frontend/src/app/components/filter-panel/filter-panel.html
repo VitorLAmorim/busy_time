@@ -52,25 +52,33 @@
     <mat-card-content class="space-y-4">
       <div>
         <label class="block mb-2">Minimum Rating: {{ filters.minRating }}</label>
-        <mat-slider
-          class="w-full"
-          [min]="0"
-          [max]="5"
-          [step]="0.1"
-        >
-          <input matSliderThumb [value]="filters.minRating" (dragEnd)="onMinRatingChange($event.value)"/>
-        </mat-slider>
+        <div class="btn-group">
+          @for (i of [1, 2, 2.5, 3, 3.5, 4, 4.5]; track i) {
+            <ng-container
+              [ngTemplateOutlet]="templateRef"
+              [ngTemplateOutletContext]="
+                { text: i,
+                  action: onMinRatingChange.bind(this, i),
+                  isActive: filters.minRating === i
+                  }"
+            ></ng-container>
+          }
+        </div>
       </div>
       <div>
         <label class="block mb-2">Minimum Reviews: {{ filters.minReviews }}</label>
-        <mat-slider
-          class="w-full"
-          [min]="0"
-          [max]="10000"
-          [step]="1"
-          >
-          <input matSliderThumb [value]="filters.minReviews" (dragEnd)="onMinReviewsChange($event.value)"/>
-        </mat-slider>
+        <div class="btn-group">
+          @for (i of [100, 500, 1000, 2000, 5000]; track i) {
+            <ng-container
+              [ngTemplateOutlet]="templateRef"
+              [ngTemplateOutletContext]="
+                { text: i,
+                  action: onMinReviewsChange.bind(this, i),
+                  isActive: filters.minReviews === i
+                  }"
+            ></ng-container>
+          }
+        </div>
       </div>
     </mat-card-content>
   </mat-card>
@@ -85,16 +93,24 @@
     </mat-card-header>
     <mat-card-content class="space-y-3">
       <div>
-        <label class="block mb-2">Price Level: {{ filters.priceLevel === 0 ? "All prices" : filters.priceLevel }}</label>
-        <mat-slider
-          class="w-full"
-          [min]="0"
-          [max]="4"
-          [step]="1"
-          showTickMarks>
-          <input matSliderThumb [value]="filters.priceLevel" (dragEnd)="onPriceLevelChange($event.value)"/>
-        </mat-slider>
+        <label class="block mb-2">Price Level:</label>
+        <div class="btn-group">
+          @for (i of [1,2,3,4]; track i) {
+            <ng-container
+              [ngTemplateOutlet]="templateRef"
+              [ngTemplateOutletContext]="
+                { text: i == 1 ? '$' : i == 2 ? '$$' : i == 3 ? '$$$' : '$$$$',
+                  action: onPriceLevelChange.bind(this, i),
+                  isActive: filters.priceLevel === i
+                  }"
+            ></ng-container>
+          }
+        </div>
       </div>
     </mat-card-content>
   </mat-card>
-</div>
+
+
+    <ng-template #templateRef let-text="text" let-action='action' let-isActive= 'isActive' >
+          <button class="btn {{isActive ? 'btn-active' : ''}}" (click)="action()">{{ text }}</button>
+    </ng-template>
