@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://busy-time.onrender.com/places'
+  apiUrl: 'http://localhost:3000/places'
 };

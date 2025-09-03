@@ -6,8 +6,8 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <mat-tab-group [selectedIndex]="1" class="w-full" (selectedTabChange)="onTabChange($event.index)">
-      @for (dayData of data; track dayData.day) {
+    <mat-tab-group [selectedIndex]="0"  class="w-full" (selectedTabChange)="onTabChange($event.index)">
+      @for (dayData of data; track $index) {
         <mat-tab [label]="dayLabels[dayData.day].slice(0, 3)">
           <div class="space-y-4 pt-4">
             <div class="grid grid-cols-2 gap-4 mb-4">
@@ -17,8 +17,8 @@
                     <mat-icon class="h-4 w-4 text-muted-foreground">group</mat-icon>
                     <div>
                       <p class="text-sm text-muted-foreground">Average</p>
-                      <p class="font-medium" [style.color]="getCrowdednessLevel(getAverageCrowdedness(dayData)).color">
-                        {{ getAverageCrowdedness(dayData) }}% ({{ getCrowdednessLevel(getAverageCrowdedness(dayData)).label }})
+                      <p class="font-medium" [style.color]="getBusynessLevel(getAverageBusyness(dayData)).color">
+                        {{ getAverageBusyness(dayData) }}% ({{ getBusynessLevel(getAverageBusyness(dayData)).label }})
                       </p>
                     </div>
                   </div>
@@ -30,8 +30,8 @@
                     <mat-icon class="h-4 w-4 text-muted-foreground">trending_up</mat-icon>
                     <div>
                       <p class="text-sm text-muted-foreground">Peak</p>
-                      <p class="font-medium" [style.color]="getCrowdednessLevel(getPeakHour(dayData).crowdedness).color">
-                        {{ formatHour(getPeakHour(dayData).hour) }} ({{ getPeakHour(dayData).crowdedness }}%)
+                      <p class="font-medium" [style.color]="getBusynessLevel(getPeakHour(dayData).busyness).color">
+                        {{ formatHour(getPeakHour(dayData).hour) }} ({{ getPeakHour(dayData).busyness }}%)
                       </p>
                     </div>
                   </div>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -23,7 +23,7 @@ import {BusyTime, dayLabels} from '../../models/place.model';
   templateUrl: './busy-time-chart.html',
   styleUrl: './busy-time-chart.scss'
 })
-export class BusyTimeChartComponent {
+export class BusyTimeChartComponent implements OnChanges{
   @Input() data!: BusyTime[];
   @Input() placeName!: string;
 
@@ -44,7 +44,7 @@ export class BusyTimeChartComponent {
       y: {
         title: {
           display: true,
-          text: 'Crowdedness %'
+          text: 'Busyness %'
         },
         min: 0,
         max: 100
@@ -59,7 +59,7 @@ export class BusyTimeChartComponent {
           label: (context) => {
             const label = context.dataset.label || '';
             const value = context.parsed.y;
-            const level = this.getCrowdednessLevel(value);
+            const level = this.getBusynessLevel(value);
             return `${label}: ${value}% (${level.label})`;
           }
         }
@@ -78,7 +78,7 @@ export class BusyTimeChartComponent {
         backgroundColor: 'rgba(59, 130, 246, 0.1)',
         pointBackgroundColor: (context) => {
           const value = context.raw as number;
-          const level = this.getCrowdednessLevel(value);
+          const level = this.getBusynessLevel(value);
           return level.color;
         },
         pointBorderColor: '#3B82F6',
@@ -90,38 +90,43 @@ export class BusyTimeChartComponent {
     ]
   };
 
+ngOnChanges(changes: SimpleChanges) {
+  if(changes['data']) {
+    this.updateChartData(changes['data'].currentValue[0])
+  }
+}
 
- formatHour(hour: number): string {
+  formatHour(hour: number): string {
     if (hour === 0) return '12 AM';
     if (hour === 12) return '12 PM';
     if (hour < 12) return `${hour} AM`;
     return `${hour - 12} PM`;
   }
 
-  getCrowdednessLevel(level: number): { label: string; color: string } {
+  getBusynessLevel(level: number): { label: string; color: string } {
     if (level < 25) return { label: 'Low', color: '#22c55e' };
     if (level < 50) return { label: 'Moderate', color: '#eab308' };
     if (level < 75) return { label: 'High', color: '#f97316' };
     return { label: 'Very High', color: '#dc2626' };
   }
 
-  getAverageCrowdedness(dayData: BusyTime): number {
-    const avg = dayData.hours.reduce((sum, crowdedness) => sum + crowdedness, 0) / dayData.hours.length;
+  getAverageBusyness(dayData: BusyTime): number {
+    const avg = dayData.hours.reduce((sum, busyness) => sum + busyness, 0) / dayData.hours.length;
     return Math.round(avg);
   }
 
-  getPeakHour(dayData: BusyTime): { hour: number; crowdedness: number } {
-    let maxCrowdedness = 0;
+  getPeakHour(dayData: BusyTime): { hour: number; busyness: number } {
+    let maxBusyness = 0;
     let peakHour = 0;
 
-    dayData.hours.forEach((crowdedness, index) => {
-      if (crowdedness > maxCrowdedness) {
-        maxCrowdedness = crowdedness;
+    dayData.hours.forEach((busyness, index) => {
+      if (busyness > maxBusyness) {
+        maxBusyness = busyness;
         peakHour = index;
       }
     });
 
-    return { hour: peakHour, crowdedness: maxCrowdedness };
+    return { hour: peakHour, busyness: maxBusyness };
   }
 
   onTabChange(index: number) {

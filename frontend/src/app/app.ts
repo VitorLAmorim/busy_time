@@ -68,6 +68,7 @@ export class App {
 
     effect(() => {
       const filters = this.filters();
+      this.selectedPlace.set(null);
       this.currentPage = 1;
         const timer = setTimeout(() => {
           this.loadPlaces(this.buildQuery(), false);
